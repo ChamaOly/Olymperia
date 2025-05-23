@@ -1,0 +1,8 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/scrollHonores" android:layout_width="match_parent" android:layout_height="match_parent" android:padding="16dp">
+    <GridLayout android:id="@+id/gridHonores" android:layout_width="match_parent" android:layout_height="wrap_content" android:columnCount="2" android:orientation="horizontal" android:alignmentMode="alignMargins" android:rowCount="2" android:padding="8dp">
+        <!--  Ejemplo de honor bloqueado  -->
+        <TextView android:id="@+id/honorConquistadorBurgos" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_margin="8dp" android:layout_columnWeight="1" android:text="Conquistador de Burgos" android:textSize="16sp" android:textColor="#FFFFFF" android:textStyle="bold" android:gravity="center" android:fontFamily="@font/cinzel_regular" android:background="@drawable/bg_honor_conquistador" android:padding="12dp" android:alpha="0.3"/>
+        <!--  Ejemplo de honor desbloqueado  -->
+        <TextView android:id="@+id/honorGuiaBuitres" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_margin="8dp" android:layout_columnWeight="1" android:text="Guía de Buitres" android:textSize="16sp" android:textColor="#FFFFFF" android:textStyle="bold" android:gravity="center" android:fontFamily="@font/cinzel_regular" android:background="@drawable/bg_honor_guia" android:padding="12dp" android:alpha="1.0"/>
+    </GridLayout>
+</ScrollView>

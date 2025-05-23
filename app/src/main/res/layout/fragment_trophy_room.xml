@@ -1,0 +1,49 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:padding="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Sección distancia -->
+    <TextView
+        android:id="@+id/tvDistanceHeader"
+        style="@style/SectionHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Distancia" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTrophiesDistance"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Sección desnivel -->
+    <TextView
+        android:id="@+id/tvElevationHeader"
+        style="@style/SectionHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Desnivel" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTrophiesElevation"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <!-- Sección consistencia -->
+    <TextView
+        android:id="@+id/tvConsistencyHeader"
+        style="@style/SectionHeader"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Consistencia" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvTrophiesConsistency"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+</LinearLayout>

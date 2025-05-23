@@ -1,0 +1,19 @@
+<resources>
+
+    <!-- Para el título de tu Toolbar -->
+    <style name="TextAppearance.App.Toolbar.Title" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">
+        <item name="android:textSize">20sp</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+
+    </style>
+
+    <!-- Para los encabezados de sección en TrophyRoomFragment -->
+    <style name="SectionHeader">
+        <item name="android:textSize">18sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:textColor">?attr/colorOnBackground</item>
+    </style>
+</resources>
+
+

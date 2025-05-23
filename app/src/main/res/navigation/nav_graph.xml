@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/nav_profile">
+
+    <action
+        android:id="@+id/action_portListFragment_to_portDetailFragment"
+        app:destination="@id/portDetailFragment" />
+
+    <action
+        android:id="@+id/action_profile_to_achievements"
+        app:destination="@id/achievementsFragment" />
+
+    <fragment
+        android:id="@+id/achievementsFragment"
+        android:name="com.example.olymperia.ui.AchievementsFragment"
+        android:label="Logros" />
+
+    <!-- Perfil -->
+    <fragment
+        android:id="@+id/nav_profile"
+        android:name="com.example.olymperia.ui.ProfileFragment"
+        android:label="Perfil" />
+
+    <!-- Trofeos -->
+    <fragment
+        android:id="@+id/nav_trophies"
+        android:name="com.example.olymperia.ui.AchievementsFragment"
+        android:label="Trofeos" />
+
+    <!-- Ranking -->
+    <fragment
+        android:id="@+id/nav_ranking"
+        android:name="com.example.olymperia.ui.RankingFragment"
+        android:label="Ranking" />
+
+    <!-- Detalle Carpeta -->
+    <fragment
+        android:id="@+id/folderDetailFragment"
+        android:name="com.example.olymperia.ui.folders.FolderDetailFragment"
+        android:label="Detalle Carpeta">
+        <argument
+            android:name="folderId"
+            app:argType="long" />
+        <argument
+            android:name="folderName"
+            app:argType="string" />
+    </fragment>
+
+    <!-- Puertos (vista principal de provincias) -->
+    <fragment
+        android:id="@+id/nav_ports"
+        android:name="com.example.olymperia.ui.PortListFragment"
+        android:label="Puertos">
+        <action
+            android:id="@+id/action_ports_to_folderDetail"
+            app:destination="@id/folderDetailFragment" />
+    </fragment>
+
+    <!-- Detalle de Puerto -->
+    <fragment
+        android:id="@+id/portDetailFragment"
+        android:name="com.example.olymperia.ui.PortDetailFragment"
+        android:label="Detalle Puerto">
+        <argument
+            android:name="province"
+            app:argType="string" />
+    </fragment>
+
+    <!-- Provincias -->
+    <fragment
+        android:id="@+id/folderListFragment"
+        android:name="com.example.olymperia.ui.folders.FolderListFragment"
+        android:label="Provincias">
+        <action
+            android:id="@+id/action_to_folderDetail"
+            app:destination="@id/portListFragment" />
+    </fragment>
+
+    <!-- Puertos por provincia -->
+    <fragment
+        android:id="@+id/portListFragment"
+        android:name="com.example.olymperia.ui.PortListFragment"
+        android:label="Puertos">
+        <argument
+            android:name="provinceName"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_portListFragment_to_portDetailFragment"
+            app:destination="@id/portDetailFragment" />
+    </fragment>
+
+</navigation>
