@@ -1,38 +1,27 @@
 package com.example.olymperia.ui
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.olymperia.R
+import com.example.olymperia.databinding.ItemProvinciaBinding
 
 class ProvinceAdapter(
-
-    private val provinces: List<String>,
+    private val provincias: List<String>,
     private val onClick: (String) -> Unit
 ) : RecyclerView.Adapter<ProvinceAdapter.ViewHolder>() {
 
-    inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val nameText: TextView = view.findViewById(R.id.tvNombreProvincia)
-
-
-        fun bind(province: String) {
-            nameText.text = province
-            itemView.setOnClickListener { onClick(province) }
-        }
-    }
+    class ViewHolder(val binding: ItemProvinciaBinding) : RecyclerView.ViewHolder(binding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_provincia, parent, false)
-
-        return ViewHolder(view)
+        val binding = ItemProvinciaBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return ViewHolder(binding)
     }
-
-    override fun getItemCount() = provinces.size
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(provinces[position])
+        val provincia = provincias[position]
+        holder.binding.tvNombreProvincia.text = provincia
+        holder.binding.root.setOnClickListener { onClick(provincia) }
     }
+
+    override fun getItemCount() = provincias.size
 }

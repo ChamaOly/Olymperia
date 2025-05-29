@@ -1,15 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
-    android:padding="16dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:background="#121212">
 
+    <!-- Encabezado visual de la provincia -->
+    <TextView
+        android:id="@+id/tvProvinceName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Provincia"
+        android:textSize="22sp"
+        android:textColor="@android:color/white"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:fontFamily="@font/cinzel_regular"
+        android:paddingBottom="8dp" />
+
+    <!-- Lista de puertos -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvPorts"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false" />
 
+    <!-- Puntos (oculto hasta que se muestre) -->
     <TextView
         android:id="@+id/tvResultadoPuntos"
         android:layout_width="match_parent"
@@ -19,7 +37,7 @@
         android:textStyle="bold"
         android:textColor="#FFFFFF"
         android:padding="16dp"
-        android:layout_margin="16dp"
+        android:layout_marginTop="12dp"
         android:background="@drawable/bg_puntos_destacado"
         android:gravity="center"
         android:visibility="gone"
@@ -28,8 +46,6 @@
         android:shadowDx="2"
         android:shadowDy="2"
         android:shadowRadius="4"
-        android:fontFamily="@font/cinzel_regular"
-        />
-
+        android:fontFamily="@font/cinzel_regular" />
 
 </LinearLayout>

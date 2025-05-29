@@ -18,6 +18,14 @@ class HonorUnlockedDialog(
         val view = LayoutInflater.from(requireContext()).inflate(R.layout.dialog_honor_unlocked, null)
 
         val tvMensaje = view.findViewById<TextView>(R.id.tvTextoHonor)
+        val mediaPlayer = android.media.MediaPlayer.create(requireContext(), R.raw.honor_unlocked)
+        mediaPlayer.start()
+
+        // Animación de escala
+        view.scaleX = 0.5f
+        view.scaleY = 0.5f
+        view.animate().scaleX(1f).scaleY(1f).setDuration(300).start()
+
         val fondo = when (honor.tipo) {
             "conquistador" -> R.drawable.bg_honor_conquistador
             "rey" -> R.drawable.bg_honor_rey

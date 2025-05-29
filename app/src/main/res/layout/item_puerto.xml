@@ -1,52 +1,5 @@
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="12dp"
-    android:gravity="center_vertical"
-    android:background="@drawable/bg_categoria_default"
-    android:layout_marginBottom="8dp">
-
-    <!-- Nombre del puerto -->
-    <TextView
-        android:id="@+id/tvNombrePuerto"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Puerto del León"
-        android:textSize="18sp"
-        android:textColor="#FFFFFF"
-        android:typeface="serif"
-        android:shadowColor="#000000"
-        android:shadowDx="2"
-        android:shadowDy="2"
-        android:shadowRadius="2"
-        android:textStyle="bold"
-        android:fontFamily="@font/cinzel_regular"
-        />
-
-    <!-- Insignia -->
-    <ImageView
-        android:id="@+id/ivInsignia"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:src="@drawable/badge_3_1"
-        android:contentDescription="Insignia"
-        android:layout_marginEnd="8dp" />
-
-    <!-- Repeticiones -->
-    <TextView
-        android:id="@+id/tvRepeticiones"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="x5"
-        android:textColor="#FFFFFF"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:fontFamily="@font/cinzel_regular"
-        android:shadowColor="#000000"
-        android:shadowDx="2"
-        android:shadowDy="2"
-        android:shadowRadius="2" />
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:padding="12dp" android:gravity="center_vertical" android:background="@drawable/bg_categoria_1">
+    <TextView android:id="@+id/tvNombrePuerto" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:text="Nombre del puerto" android:textSize="16sp" android:textColor="@color/black" android:textStyle="bold"/>
+    <ImageView android:id="@+id/ivCompletado" android:layout_width="28dp" android:layout_height="28dp" android:layout_marginEnd="8dp" android:padding="2dp" android:background="@drawable/bg_icon_circle" android:visibility="gone" android:contentDescription="Insignia puerto"/>
+    <TextView android:id="@+id/tvRepeticiones" android:layout_width="wrap_content" android:layout_height="wrap_content" android:text="x3" android:textColor="@color/black" android:textSize="14sp" android:textStyle="bold"/>
 </LinearLayout>

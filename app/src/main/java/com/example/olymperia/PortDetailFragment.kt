@@ -34,20 +34,18 @@ class PortDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         province = arguments?.getString("province") ?: return
+        binding.tvProvinceName.text = "Provincia: $province"
         cargarPuertos()
     }
 
     private fun cargarPuertos() {
         val basePorts = PortRepository.getSegmentsByProvince(province)
-
-        // Añadir completedCount
         enrichedPorts = basePorts.map { port ->
             val count = ScoreManager.getCompletedCount(requireContext(), port.id)
             port.copy(completedCount = count)
         }
 
         adapter = PortSegmentAdapter { port -> checkStravaEfforts(port) }
-
         binding.rvPorts.layoutManager = LinearLayoutManager(requireContext())
         binding.rvPorts.adapter = adapter
         adapter.submitList(enrichedPorts)
@@ -70,40 +68,30 @@ class PortDetailFragment : Fragment() {
                 val efforts = api.getSegmentEfforts("Bearer $token", port.id, athleteId)
                 val completedCount = efforts.size
 
-                // Guardar repeticiones
-                val prefs = requireContext().getSharedPreferences("strava_prefs", Context.MODE_PRIVATE)
-                prefs.edit().putInt("completed_count_${port.id}", completedCount).apply()
-
-                // Añadir puntos si toca
-                val mensaje = ScoreManager.addPointsIfEligible(requireContext(), port.id, completedCount, port.points)
+                val mensaje = ScoreManager.procesarEsfuerzosStrava(
+                    requireContext(),
+                    port.id,
+                    completedCount,
+                    port.points
+                )
 
                 if (mensaje != null) {
                     val total = ScoreManager.getTotalPoints(requireContext())
                     val textoFinal = "$mensaje\nTotal actual: $total"
-
-                    // Mostrar en pantalla
                     binding.tvResultadoPuntos.text = textoFinal
                     binding.tvResultadoPuntos.visibility = View.VISIBLE
-
-                    // También mostrar como Toast
                     Snackbar.make(requireView(), textoFinal, Snackbar.LENGTH_LONG).show()
+                }
 
-                    // Recargar lista visual si quieres
-                    cargarPuertos()
-
-
-
-                } else {
+                else {
                     Snackbar.make(requireView(), "Subido $completedCount veces — sin puntos nuevos", Snackbar.LENGTH_SHORT).show()
                 }
 
-                // 🔁 Recargar puertos para actualizar insignias
                 cargarPuertos()
 
             } catch (e: Exception) {
                 Toast.makeText(requireContext(), "Error al consultar Strava", Toast.LENGTH_SHORT).show()
             }
-
         }
     }
 }

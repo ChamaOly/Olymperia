@@ -48,15 +48,28 @@
             app:argType="string" />
     </fragment>
 
-    <!-- Puertos (vista principal de provincias) -->
+    <!-- Puertos (vista intermedia) -->
     <fragment
         android:id="@+id/nav_ports"
-        android:name="com.example.olymperia.ui.PortListFragment"
+        android:name="com.example.olymperia.ui.ProvinceSelectorFragment"
         android:label="Puertos">
         <action
-            android:id="@+id/action_ports_to_folderDetail"
-            app:destination="@id/folderDetailFragment" />
+            android:id="@+id/actionProvinceSelectorToProvinceList"
+            app:destination="@id/provinceListFragment" />
     </fragment>
+
+    <fragment
+        android:id="@+id/provinceListFragment"
+        android:name="com.example.olymperia.ui.ProvinceListFragment"
+        android:label="Provincias">
+        <argument
+            android:name="provincias"
+            app:argType="string[]" />
+        <action
+            android:id="@+id/actionProvinceListFragmentToPortListFragment"
+            app:destination="@id/portListFragment" />
+    </fragment>
+
 
     <!-- Detalle de Puerto -->
     <fragment
@@ -78,14 +91,14 @@
             app:destination="@id/portListFragment" />
     </fragment>
 
-    <!-- Puertos por provincia -->
+    <!-- Puertos filtrados por provincias -->
     <fragment
         android:id="@+id/portListFragment"
         android:name="com.example.olymperia.ui.PortListFragment"
         android:label="Puertos">
         <argument
-            android:name="provinceName"
-            app:argType="string" />
+            android:name="provincias"
+            app:argType="string[]" />
         <action
             android:id="@+id/action_portListFragment_to_portDetailFragment"
             app:destination="@id/portDetailFragment" />

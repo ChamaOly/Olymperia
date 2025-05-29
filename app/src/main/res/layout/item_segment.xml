@@ -13,8 +13,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="16dp"
-        android:gravity="center_vertical"
-        android:background="@drawable/bg_categoria_1">
+        android:gravity="center_vertical">
 
         <!-- Nombre del puerto -->
         <TextView
@@ -37,8 +36,6 @@
             android:id="@+id/ivSegmentBadge"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:src="@drawable/badge_3_1"
-            android:contentDescription="Insignia"
             android:layout_marginEnd="8dp"
             android:visibility="gone"/>
 
@@ -56,5 +53,6 @@
             android:shadowDx="2"
             android:shadowDy="2"
             android:shadowRadius="2" />
+
     </LinearLayout>
 </androidx.cardview.widget.CardView>

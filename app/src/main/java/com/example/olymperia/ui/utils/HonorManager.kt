@@ -53,14 +53,26 @@ object HonorManager {
             onNuevoHonor(honor)
         }
 
-        // Rey de Ávila: todos los segmentos de Ávila completados
-        val deAvila = segmentos.filter { it.province == "Ávila" }
-        val completadosAvila = deAvila.count { ScoreManager.getCompletedCount(context, it.id) > 0 }
 
-        if (completadosAvila == deAvila.size && !estaHonorDesbloqueado(context, "rey_avila")) {
-            marcarHonorComoDesbloqueado(context, "rey_avila")
-            val honor = Honor("Rey de Ávila", "rey", true)
-            onNuevoHonor(honor)
+        val provincias = segmentos.map { it.province }.distinct()
+
+        
+        for (provincia in provincias) {
+            val idHonor = "conquistador_${provincia.lowercase()}"
+            val completadosProvincia = segmentos.filter {
+                it.province == provincia && ScoreManager.getCompletedCount(context, it.id) > 0
+            }
+
+            if (completadosProvincia.isNotEmpty() && !estaHonorDesbloqueado(context, idHonor)) {
+                android.util.Log.d("HONOR_DEBUG", "🔓 Desbloqueando: $idHonor")
+                marcarHonorComoDesbloqueado(context, idHonor)
+                context.getSharedPreferences("strava_prefs", Context.MODE_PRIVATE)
+                    .edit().putBoolean(idHonor, true).apply()
+                val honor = Honor("Conquistador de $provincia", "conquistador", true)
+                onNuevoHonor(honor)
+            }
         }
+
+
     }
 }

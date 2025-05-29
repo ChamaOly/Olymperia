@@ -1,0 +1,7 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/action_back_to_regions"
+        android:title="Volver a regiones"
+        android:icon="@drawable/ic_back"
+        android:showAsAction="ifRoom"/>
+</menu>

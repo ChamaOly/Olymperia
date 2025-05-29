@@ -7,7 +7,6 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-
 import com.example.olymperia.model.TokenResponse
 import com.example.olymperia.network.StravaAuthService
 import kotlinx.coroutines.launch
@@ -34,10 +33,18 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
+        val prefs = getSharedPreferences("strava_prefs", MODE_PRIVATE)
+        val token = prefs.getString("access_token", null)
+        val expiresAt = prefs.getLong("expires_at", 0)
+        val isStillValid = System.currentTimeMillis() / 1000 < expiresAt
+
+        if (token != null && isStillValid) {
+            startActivity(Intent(this, MainActivity::class.java))
+            finish()
+            return
+        }
+
         findViewById<Button>(R.id.btnStravaLogin).setOnClickListener {
-
-
-
             val uri = Uri.Builder()
                 .scheme("https")
                 .authority("www.strava.com")
@@ -61,7 +68,6 @@ class LoginActivity : AppCompatActivity() {
         } ?: run {
             Toast.makeText(this, "Error en OAuth: no vino code", Toast.LENGTH_LONG).show()
         }
-
     }
 
     private fun exchangeCodeForToken(code: String) {
@@ -73,16 +79,18 @@ class LoginActivity : AppCompatActivity() {
                     code         = code,
                     redirectUri  = REDIRECT_URI
                 )
-                // Guarda tokens en prefs
-                getSharedPreferences("strava_prefs", MODE_PRIVATE)
-                    .edit()
+
+                val prefs = getSharedPreferences("strava_prefs", MODE_PRIVATE)
+                prefs.edit()
                     .putString("access_token", resp.accessToken)
                     .putString("refresh_token", resp.refreshToken)
                     .putLong("expires_at", resp.expiresAt)
+                    .putString("athlete_name", resp.athlete.firstname + " " + resp.athlete.lastname)
+                    .putString("avatar_url", resp.athlete.profile_medium)
+
                     .apply()
 
-                // Lanza MainActivity
-                startActivity(Intent(this@LoginActivity, MainActivity::class.java))  // ✅ CORREGIDO
+                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                 finish()
             } catch (e: Exception) {
                 Toast.makeText(this@LoginActivity,

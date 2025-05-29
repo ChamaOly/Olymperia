@@ -29,8 +29,16 @@ class HonorAdapter(
         private val tvHonor: TextView = itemView.findViewById(R.id.tvHonorNombre)
 
         fun bind(honor: Honor) {
+            val context = itemView.context
+            val id = when {
+                honor.nombre.startsWith("Conquistador de ") -> "conquistador_" + honor.nombre.removePrefix("Conquistador de ").lowercase()
+                honor.nombre.startsWith("Rey de ") -> "rey_" + honor.nombre.removePrefix("Rey de ").lowercase()
+                else -> honor.nombre.lowercase().replace(" ", "_")
+            }
+            val estaDesbloqueado = com.example.olymperia.utils.HonorManager.estaHonorDesbloqueado(context, id)
+            honor.desbloqueado = estaDesbloqueado
             tvHonor.text = honor.nombre
-            tvHonor.alpha = if (honor.desbloqueado) 1f else 0.3f
+            tvHonor.alpha = if (estaDesbloqueado) 1f else 0.3f
 
             val fondo = when (honor.tipo) {
                 "conquistador" -> R.drawable.bg_honor_conquistador
@@ -43,7 +51,7 @@ class HonorAdapter(
             tvHonor.setBackgroundResource(fondo)
 
             itemView.setOnClickListener {
-                if (honor.desbloqueado) onClick(honor)
+                if (estaDesbloqueado) onClick(honor)
             }
         }
     }

@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.olymperia.model.PortSegment
+import com.example.olymperia.utils.ScoreManager
 
 class PortAdapter(
     private val ports: List<PortSegment>,
@@ -30,19 +31,19 @@ class PortAdapter(
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val tvNombre = itemView.findViewById<TextView>(R.id.tvNombrePuerto)
-        private val ivInsignia = itemView.findViewById<ImageView>(R.id.ivInsignia)
+        private val ivCompletado = itemView.findViewById<ImageView>(R.id.ivCompletado)
         private val tvRepeticiones = itemView.findViewById<TextView>(R.id.tvRepeticiones)
 
         fun bind(port: PortSegment) {
             val nombre = port.name
             val puntos = port.points
-            val segmentId = port.id.toString() // usamos 'id' como segmentId
-            val vecesCompletado = port.completedCount
+            val segmentId = port.id
+
+            val vecesCompletado = ScoreManager.getCompletedCount(context, segmentId)
 
             tvNombre.text = nombre
             tvRepeticiones.text = "x$vecesCompletado"
 
-            // Asignar categoría
             val categoria = when {
                 puntos < 85 -> "3"
                 puntos in 100..170 -> "2"
@@ -51,39 +52,30 @@ class PortAdapter(
                 else -> "0"
             }
 
-            // Asignar fondo dinámico
             val fondo = when (categoria) {
                 "3" -> R.drawable.bg_categoria_3
                 "2" -> R.drawable.bg_categoria_2
                 "1" -> R.drawable.bg_categoria_1
                 "HC" -> R.drawable.bg_categoria_hc
-                else -> R.drawable.bg_categoria_1 // nunca debería llegar aquí
+                else -> R.drawable.bg_categoria_1
             }
             itemView.setBackgroundResource(fondo)
 
-            // Determinar insignia
-            val badgeLevel = when {
-                vecesCompletado >= 10 -> 4
-                vecesCompletado >= 5 -> 3
-                vecesCompletado >= 3 -> 2
-                vecesCompletado >= 1 -> 1
+            val iconRes = when {
+                vecesCompletado >= 10 -> R.drawable.ic_crown
+                vecesCompletado >= 5 -> R.drawable.ic_diamond
+                vecesCompletado >= 3 -> R.drawable.ic_star
+                vecesCompletado >= 1 -> R.drawable.ic_check
                 else -> 0
             }
 
-            if (badgeLevel > 0) {
-                val badgeName = "badge_${categoria.lowercase()}_$badgeLevel"
-                val badgeResId = context.resources.getIdentifier(badgeName, "drawable", context.packageName)
-                if (badgeResId != 0) {
-                    ivInsignia.setImageResource(badgeResId)
-                    ivInsignia.visibility = View.VISIBLE
-                } else {
-                    ivInsignia.visibility = View.GONE
-                }
+            if (iconRes != 0) {
+                ivCompletado.setImageResource(iconRes)
+                ivCompletado.visibility = View.VISIBLE
             } else {
-                ivInsignia.visibility = View.GONE
+                ivCompletado.visibility = View.GONE
             }
 
-            // Click
             itemView.setOnClickListener {
                 onClick(port)
             }

@@ -11,10 +11,19 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        // Espera 2 segundos y lanza Login
         CoroutineScope(Dispatchers.Main).launch {
-            delay(2000)
-            startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+            delay(1500)
+
+            val prefs = getSharedPreferences("strava_prefs", MODE_PRIVATE)
+            val token = prefs.getString("access_token", null)
+            val expiresAt = prefs.getLong("expires_at", 0)
+            val isStillValid = System.currentTimeMillis() / 1000 < expiresAt
+
+            if (token != null && isStillValid) {
+                startActivity(Intent(this@SplashActivity, MainActivity::class.java))
+            } else {
+                startActivity(Intent(this@SplashActivity, LoginActivity::class.java))
+            }
             finish()
         }
     }
