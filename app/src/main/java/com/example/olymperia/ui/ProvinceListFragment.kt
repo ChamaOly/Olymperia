@@ -39,6 +39,10 @@ class ProvinceListFragment : Fragment() {
 
         binding.recyclerProvincias.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerProvincias.adapter = adapter
+        binding.btnVolverInicio.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
+
     }
 
     override fun onDestroyView() {

@@ -48,4 +48,6 @@
     <path ns0:fillColor="#2D2D2D" ns0:pathData="M10,240 h10 v10 h-10 z" ns0:id="@+id/zaragoza"/>
     <path ns0:fillColor="#2D2D2D" ns0:pathData="M10,245 h10 v10 h-10 z" ns0:id="@+id/ceuta"/>
     <path ns0:fillColor="#2D2D2D" ns0:pathData="M10,250 h10 v10 h-10 z" ns0:id="@+id/melilla"/>
+    <path ns0:fillColor="#2D2D2D" ns0:pathData="M10,255 h10 v10 h-10 z" ns0:id="@+id/cantabria"/>
+
 </vector>

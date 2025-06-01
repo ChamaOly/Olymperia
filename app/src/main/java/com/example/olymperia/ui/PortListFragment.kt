@@ -37,7 +37,6 @@ class PortListFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
         val provincias = arguments?.getStringArray("provincias") ?: emptyArray()
         ports = PortRepository.getAllSegments().filter { it.province in provincias }
 
@@ -45,9 +44,17 @@ class PortListFragment : Fragment() {
             val prefs = requireContext().getSharedPreferences("strava_prefs", 0)
             val token = prefs.getString("access_token", null)
             val athleteId = prefs.getLong("athlete_id", -1L)
+            val expiresAt = prefs.getLong("expires_at", 0L)
+            val currentTime = System.currentTimeMillis() / 1000
+            val isTokenValid = !token.isNullOrEmpty() && currentTime < expiresAt && athleteId != -1L
+            Log.d("DEBUG_TOKEN_CHECK", "Token=$token, athleteId=$athleteId, expiresAt=$expiresAt, now=${System.currentTimeMillis() / 1000}")
 
-            if (!token.isNullOrEmpty() && athleteId != -1L) {
-                val strava = StravaApi.create(token)
+
+            if (isTokenValid) {
+                val strava = StravaApi.create(token!!)
+                Log.d("DEBUG_TOKEN", "Token: $token, AthleteId: $athleteId, ExpiresAt: $expiresAt, Now: ${System.currentTimeMillis() / 1000}")
+
+                // No se pasa el token aquí
 
                 lifecycleScope.launch {
                     try {
@@ -79,6 +86,9 @@ class PortListFragment : Fragment() {
 
                         binding.tvResultadoPuntos.visibility = View.VISIBLE
                         adapter.notifyItemChanged(ports.indexOf(port))
+                        binding.btnVolverInicio.setOnClickListener {
+                            requireActivity().onBackPressedDispatcher.onBackPressed()
+                        }
 
                     } catch (e: Exception) {
                         Log.e("STRAVA_ERROR", "Error consultando esfuerzos", e)
@@ -92,6 +102,9 @@ class PortListFragment : Fragment() {
 
         binding.recyclerProvinces.layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerProvinces.adapter = adapter
+        binding.btnVolverInicio.setOnClickListener {
+            requireActivity().onBackPressedDispatcher.onBackPressed()
+        }
 
         binding.tvResultadoPuntos.setOnClickListener {
             it.visibility = View.GONE

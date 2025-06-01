@@ -20,11 +20,7 @@ object ScoreManager {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
         val completedCountLocal = prefs.getInt("completed_count_$segmentId", 0)
 
-        // ⚠️ Evita clics infinitos: solo continúa si hay nuevos esfuerzos reales en Strava
-        if (totalEfforts <= completedCountLocal) {
-            Log.d("SCORE", "⚠️ Segmento $segmentId sin esfuerzos nuevos. totalEfforts=$totalEfforts, local=$completedCountLocal")
-            return null
-        }
+        if (totalEfforts == 0) return null
 
         val lastThreshold = prefs.getInt("port_$segmentId", 0)
         val nuevos = validThresholds.filter { it > lastThreshold && totalEfforts >= it }
@@ -39,55 +35,26 @@ object ScoreManager {
                 .putInt("completed_count_$segmentId", totalEfforts)
                 .apply()
 
-            HonorManager.verificarDesbloqueoDeHonores(context) { nuevoHonor ->
-                onHonorUnlocked?.invoke(nuevoHonor)
-            }
-
             val detalle = nuevos.joinToString(" + ") {
                 "$points puntos — $it vez${if (it > 1) "es" else ""}"
             }
 
             Log.d("SCORE", "✅ Segmento $segmentId realizado $totalEfforts veces → $detalle")
-            detalle
-        } else {
-            prefs.edit().putInt("completed_count_$segmentId", totalEfforts).apply()
-            Log.d("SCORE", "🔁 Segmento $segmentId → esfuerzos actualizados a $totalEfforts, sin puntos nuevos")
-            null
-        }
-    }
-
-    fun addPointsIfEligible(
-        context: Context,
-        segmentId: Long,
-        completedCount: Int,
-        points: Int,
-        onHonorUnlocked: ((Honor) -> Unit)? = null
-    ): String? {
-        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-        val lastThreshold = prefs.getInt("port_$segmentId", 0)
-
-        val newThresholds = validThresholds.filter { it > lastThreshold && completedCount >= it }
-
-        return if (newThresholds.isNotEmpty()) {
-            val newHighest = newThresholds.last()
-            val total = prefs.getInt(TOTAL_POINTS_KEY, 0) + (newThresholds.size * points)
-            prefs.edit()
-                .putInt(TOTAL_POINTS_KEY, total)
-                .putInt("port_$segmentId", newHighest)
-                .apply()
 
             HonorManager.verificarDesbloqueoDeHonores(context) { nuevoHonor ->
                 onHonorUnlocked?.invoke(nuevoHonor)
             }
 
-            val detail = newThresholds.joinToString(" + ") {
-                "$points puntos — $it vez${if (it > 1) "es" else ""}"
+            detalle
+        } else {
+            prefs.edit().putInt("completed_count_$segmentId", totalEfforts).apply()
+
+            // ✅ Verificar logros aunque no se hayan obtenido puntos nuevos
+            HonorManager.verificarDesbloqueoDeHonores(context) { nuevoHonor ->
+                onHonorUnlocked?.invoke(nuevoHonor)
             }
 
-            Log.d("SCORE", "✅ Segmento $segmentId completado $completedCount veces → $detail (nuevo umbral $newHighest)")
-            detail
-        } else {
-            Log.d("SCORE", "🔁 Segmento $segmentId completado $completedCount veces → sin puntos (ya registrado hasta $lastThreshold)")
+            Log.d("SCORE", "🔁 Segmento $segmentId → esfuerzos actualizados a $totalEfforts, sin puntos nuevos")
             null
         }
     }

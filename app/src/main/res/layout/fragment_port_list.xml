@@ -13,6 +13,17 @@
         android:padding="12dp"
         android:fontFamily="@font/cinzel_bold" />
 
+    <Button
+        android:id="@+id/btnVolverInicio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Volver"
+        android:layout_margin="16dp"
+        android:layout_gravity="start"
+        android:backgroundTint="?attr/colorPrimary"
+        android:textColor="@android:color/white"/>
+
+
     <androidx.recyclerview.widget.RecyclerView android:id="@+id/recyclerProvinces" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1"/>
     <!--  Mensaje de resultado visible y tocable para cerrar  -->
     <TextView android:id="@+id/tvResultadoPuntos" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="" android:textSize="18sp" android:textStyle="bold" android:textColor="#FFFFFF" android:padding="16dp" android:layout_marginTop="12dp" android:background="@drawable/bg_puntos_destacado" android:gravity="center" android:visibility="gone" android:elevation="6dp" android:shadowColor="#000000" android:shadowDx="2" android:shadowDy="2" android:shadowRadius="4" android:fontFamily="@font/cinzel_regular"/>

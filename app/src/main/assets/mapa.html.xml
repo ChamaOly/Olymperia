@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources><!DOCTYPE html>
+
 <html>
 <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8"/>
     <style>
         body { margin: 0; background: black; }
         svg path { stroke: white; stroke-width: 0.5; }
@@ -13,6 +13,9 @@
     <svg id="spainMap" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
         <path id="alava" d="M10,10 h10 v10 h-10 z" fill="#2D2D2D"/>
         <path id="albacete" d="M10,20 h10 v10 h-10 z" fill="#2D2D2D"/>
+        <path id="ES-CB" d="M50,50 h20 v20 h-20 z" fill="#FF00FF" />
+
+
         <!-- Agrega más provincias aquí -->
     </svg>
 
@@ -22,8 +25,11 @@
         if (elem) elem.setAttribute("fill", color);
         }
 
-        // Estas líneas serán reemplazadas desde Kotlin con el estado de cada provincia
-        <!-- ESTADOS_DINAMICOS -->
+        // ESTADOS_DINAMICOS
+
+        // Prueba manual
+        colorProvincia('ES-CB', '#00FF00');  // Verde brillante
     </script>
+
 </body>
 </html>

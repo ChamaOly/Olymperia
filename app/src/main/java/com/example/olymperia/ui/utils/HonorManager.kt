@@ -1,9 +1,9 @@
 package com.example.olymperia.utils
 
 import android.content.Context
+import android.util.Log
 import com.example.olymperia.model.Honor
 import com.example.olymperia.repository.PortRepository
-import com.example.olymperia.utils.ScoreManager
 
 object HonorManager {
 
@@ -43,36 +43,40 @@ object HonorManager {
             onNuevoHonor(honor)
         }
 
-        // Conquistador de Burgos: todos los segmentos de Burgos completados
-        val deBurgos = segmentos.filter { it.province == "Burgos" }
-        val completados = deBurgos.count { ScoreManager.getCompletedCount(context, it.id) > 0 }
-
-        if (completados == deBurgos.size && !estaHonorDesbloqueado(context, "conquistador_burgos")) {
-            marcarHonorComoDesbloqueado(context, "conquistador_burgos")
-            val honor = Honor("Conquistador de Burgos", "conquistador", true)
-            onNuevoHonor(honor)
-        }
-
-
         val provincias = segmentos.map { it.province }.distinct()
 
-        
         for (provincia in provincias) {
-            val idHonor = "conquistador_${provincia.lowercase()}"
+            val normalizedProvincia = normalizeProvincia(provincia)
+            val idHonor = "conquistador_$normalizedProvincia"
+
             val completadosProvincia = segmentos.filter {
                 it.province == provincia && ScoreManager.getCompletedCount(context, it.id) > 0
             }
 
             if (completadosProvincia.isNotEmpty() && !estaHonorDesbloqueado(context, idHonor)) {
-                android.util.Log.d("HONOR_DEBUG", "🔓 Desbloqueando: $idHonor")
+                Log.d("HONOR_DEBUG", "🔓 Desbloqueando: $idHonor")
                 marcarHonorComoDesbloqueado(context, idHonor)
                 context.getSharedPreferences("strava_prefs", Context.MODE_PRIVATE)
                     .edit().putBoolean(idHonor, true).apply()
                 val honor = Honor("Conquistador de $provincia", "conquistador", true)
                 onNuevoHonor(honor)
             }
+
+            val idRey = "rey_$normalizedProvincia"
+            val segmentosDe100 = segmentos.filter { it.province == provincia && it.points >= 100 }
+            val completadosDe100 = segmentosDe100.filter { ScoreManager.getCompletedCount(context, it.id) > 0 }
+
+            if (segmentosDe100.isNotEmpty()
+                && completadosDe100.size == segmentosDe100.size
+                && !estaHonorDesbloqueado(context, idRey)
+            ) {
+                Log.d("HONOR_DEBUG", "🔓 Desbloqueando: $idRey")
+                marcarHonorComoDesbloqueado(context, idRey)
+                context.getSharedPreferences("strava_prefs", Context.MODE_PRIVATE)
+                    .edit().putBoolean(idRey, true).apply()
+                val honor = Honor("Rey de $provincia", "rey", true)
+                onNuevoHonor(honor)
+            }
         }
-
-
     }
 }

@@ -20,18 +20,17 @@ class MainActivity : AppCompatActivity() {
     private val api by lazy { StravaApiService.create() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+
+
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Configura navegación inferior
-        val navHost = supportFragmentManager
-            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
-        val navController = navHost.navController
-        binding.bottomNav.setupWithNavController(navController)
-
-        // Carga datos del atleta si se requiere en el futuro desde aquí (actualmente lo hace el fragmento)
-        loadAthlete()
+        // Configura la navegación inferior
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navController = navHostFragment.navController
+        binding.bottomNavigationView.setupWithNavController(navController)
     }
 
     private fun loadAthlete() {
@@ -39,14 +38,10 @@ class MainActivity : AppCompatActivity() {
             lifecycleScope.launch {
                 try {
                     val athlete: Athlete = api.getAthlete("Bearer $token")
-
-                    // Aquí podrías guardar en prefs, si el fragmento lo necesita
                     prefs.edit().putLong("athlete_id", athlete.id).apply()
-
-                    // Ya no modificamos vistas aquí, eso lo hace ProfileFragment
-
                 } catch (e: Exception) {
-                    Toast.makeText(this@MainActivity, "Error al cargar atleta", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@MainActivity, "Error al cargar atleta", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
         } ?: Toast.makeText(this, "Token no disponible", Toast.LENGTH_SHORT).show()
@@ -64,10 +59,9 @@ class MainActivity : AppCompatActivity() {
             try {
                 val efforts: List<SegmentEffort> =
                     api.getSegmentEfforts("Bearer $token", segmentId, athleteId)
-
-                // Aquí iría el adaptador si rvEfforts se usa desde fragmento o desde otra vista
             } catch (e: Exception) {
-                Toast.makeText(this@MainActivity, "Error al cargar esfuerzos", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, "Error al cargar esfuerzos", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }

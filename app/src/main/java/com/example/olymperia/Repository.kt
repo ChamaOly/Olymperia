@@ -72,7 +72,7 @@ object PortRepository {
             PortSegment(4214420L, "Aralla(Geras)", "Leon", 78),
             PortSegment(15441425L, "Aralla(Sena de Luna)", "Leon", 68),
 
-        ),
+            ),
 
         "Segovia" to listOf(
             PortSegment(37360567L, "Navapelegrín", "Segovia", 154),
@@ -186,7 +186,7 @@ object PortRepository {
             PortSegment(14543886L, "El Fito(Arriondas)", "Asturias",104),
             PortSegment(6706482L, "Leitariegos(Villablino)", "Asturias", 91),
             PortSegment(24491199L, "Naranco", "Asturias", 83),
-            ),
+        ),
 
         "Alava" to listOf(
             PortSegment(8039863L, "Pagolar(Llodio)", "Alava", 272),
@@ -202,8 +202,29 @@ object PortRepository {
 
         "Bizkaia" to listOf(
 
+            PortSegment(17670296L, "Oiz(Munditibar)", "Bizkaia", 313),
+            PortSegment(26572579L,"Oiz(Sur)", "Bizkaia", 300),
+            PortSegment(12321090L, "Pagomakurre(Areatza)", "Bizkaia", 214),
+            PortSegment(21626297L, "Pagomakurre(Artea)", "Bizkaia", 212),
+            PortSegment(1121488L, "Sollube(Bermeo)", "Bizkaia", 196),
+            PortSegment(3704829L, "Urkiola(Mañaria)", "Bizkaia", 161),
+            PortSegment(7167413L, "Santa Eufemia)", "Bizkaia", 144),
+            PortSegment(24348213L, "Bikotx-Gane(Artea)", "Bizkaia", 130), PortSegment(21962151L, "El Vivero(Galdakao)", "Bizkaia", 128), PortSegment(7476879L, "Mendibil(Barakaldo)", "Bizkaia", 124),
+            PortSegment(26339612L, "Peñas Negras(Santelices)", "Bizkaia", 115),
+            PortSegment(5053869L, "Santa Agueda(Barakaldo)", "Bizkaia", 113),
+            PortSegment(16599402L, "El Vivero(Leginatic)", "Bizkaia", 110),
+            PortSegment(12875740L, "Paresi(Altamira)", "Bizkaia", 107),
+            PortSegment(30329967L, "La Escrita(Karrantza)", "Bizkaia", 105),
+            PortSegment(19957647L, "Alen", "Bizkaia", 87),
+            PortSegment(12982394L, "Bikotx-Gane(Ibarra)", "Bizkaia", 80),
+            PortSegment(3188797L, "Barazar", "Bizkaia", 77),
+            PortSegment(26973924L, "Peñas Negras(Trapaga)", "Bizkaia", 75),
+            PortSegment(29460512L, "Paresi(Arrieta)", "Bizkaia", 71),
+            PortSegment(1225350L, "San Pelaio(Bakio)", "Bizkaia", 64),
 
-            ),
+
+
+        ),
         "Guipuzkoa" to listOf(
             PortSegment(11765408L, "Arrate(Mugitzazar)", "Guipuzkoa", 197),
             PortSegment(32367358L, "Usurbe(Beasain)", "Guipuzkoa", 197),
@@ -233,8 +254,56 @@ object PortRepository {
             PortSegment(17135870L, "Mandubia(Zubitik)", "Guipuzkoa", 55),
 
 
-        ),
+            ),
         "Pirineos" to listOf(
+            PortSegment(11212251L, "Larrau(Larrau)", "Pirineos", 378),
+            PortSegment(37371390L, "Portet(Saint-Lary)", "Pirineos", 375),
+            PortSegment(36620107L, "Bagargi(Larrau)", "Pirineos", 342),
+            PortSegment(10241131L, "Irati(Burdinkurutzeta)", "Pirineos", 339),
+            PortSegment(9963377L, "Pierre San Martin(Arette)", "Pirineos", 335),
+            PortSegment(21249932L, "Tourmalet(Luz-Saint-Sauveur)", "Pirineos", 317),
+            PortSegment(29181745L, "Tourmalet(La Mongie)", "Pirineos", 316),
+            PortSegment(15182896L, "Gavarnie", "Pirineos", 314),
+            PortSegment(36995370L, "Plateau de beille(Cabannes)", "Pirineos", 304),
+            PortSegment(32371771L, "Pailheres(Mijanes)", "Pirineos", 300),
+            PortSegment(12522398L, "Artzamendi(Itxassou)", "Pirineos", 296),
+            PortSegment(37349391L, "Lac d'Ahumar", "Pirineos", 296),
+            PortSegment(19276656L, "Soulor(Argeles-Gazost)", "Pirineos", 292),
+            PortSegment(6431013L, "Artaburu(Esterencuby)", "Pirineos", 291),
+            PortSegment(20463935L, "Laberouat(Lescun)", "Pirineos", 290),
+            PortSegment(1923L, "Hautacam(Ayros)", "Pirineos", 285),
+            PortSegment(15313865L, "Soulor(Arbeost)", "Pirineos", 281),
+            PortSegment(24705045L, "Cap de Long(Aragnouet)", "Pirineos", 278),
+            PortSegment(26843168L, "Troumouse(Gavarnie)", "Pirineos", 275),
+            PortSegment(15751625L, "Arnostegi(Arnegi)", "Pirineos", 271),
+            PortSegment(5526966L, "Bales(Ferrere)", "Pirineos", 268),
+            PortSegment(15780985L, "Aubisque(Laruns)", "Pirineos", 266),
+            PortSegment(15751625L, "Arnostegi(Arnegi)", "Pirineos", 264),
+            PortSegment(717638L, "Ahusky(Bastida)", "Pirineos", 245),
+            PortSegment(20873387L, "SuperBagneres(Saint-Aventin)", "Pirineos", 245),
+            PortSegment(35879273L, "Herran(Luchon)", "Pirineos", 242),
+            PortSegment(2549L, "Luz Ardiden", "Pirineos", 237),
+            PortSegment(38102500L, "Pla d'Adet(Vielle-Aure)", "Pirineos", 232),
+            PortSegment(9630348L, "Marie Blanque(Escot)", "Pirineos", 220),
+            PortSegment(31441292L, "Spandelles(Ferrieres)", "Pirineos", 219),
+            PortSegment(14864594L, "Pourtalet(Laruns)", "Pirineos", 211),
+            PortSegment(7289006L, "Pradel(Merial)", "Pirineos", 193),
+            PortSegment(709764L, "Pradel(Ascou)", "Pirineos", 192),
+            PortSegment(21343973L, "Hourquette(Guchen)", "Pirineos", 191),
+            PortSegment(18406410L, "Spandelles(Argeles_Gazost)", "Pirineos", 187),
+            PortSegment(4661391L, "Somport(Etsaut)", "Pirineos", 183),
+            PortSegment(19582894L, "Artigue(Juzat)", "Pirineos", 183),
+            PortSegment(32321735L, "Peyragudes(Loudenvielle)", "Pirineos", 167),
+            PortSegment(18307797L, "Tour de Madeloc(Banyuls)", "Pirineos", 164),
+            PortSegment(25063775L, "Sorogain(Urepel)", "Pirineos", 164),
+            PortSegment(14755988L, "Aspin(Campan)", "Pirineos", 102),
+            PortSegment(21963428L, "Aspin(Arreau)", "Pirineos", 163),
+            PortSegment(1224651L, "La Madeleine(La Lechere)", "Pirineos", 160),
+            PortSegment(2630646L, "La Madeleine(Saint-Francoise)", "Pirineos", 151),
+            PortSegment(12628083L, "Piau-Engaly( Aragnouet)", "Pirineos", 144),
+            PortSegment(30186203L, "Couraduque(Aucum)", "Pirineos", 123),
+            PortSegment(38024555L, "Marie Blanque(Bielle)", "Pirineos", 120),
+            PortSegment(5024536L, "Horquette(Payolle)", "Pirineos", 98),
 
         ),
         "A Coruña" to listOf(
@@ -246,7 +315,7 @@ object PortRepository {
             PortSegment(14522655L, "Paxareiras(Muros)", "A Coruña", 72),
             PortSegment(7061643L, "Paxareiras(Suevos)", "A Coruña", 41),
 
-        ),
+            ),
         "Lugo" to listOf(
             PortSegment(35317791L, "Ancares(Murias)", "Lugo", 360),
             PortSegment(15016137L, "Ancares(Balouta)", "Lugo", 197),
@@ -259,7 +328,7 @@ object PortRepository {
             PortSegment(29849021L, "Fonte da Cova(Sobradelo)", "Ourense", 297),
             PortSegment(7968882L, "Cabeza de Manzaneda", "Ourense", 245),
 
-        ),
+            ),
         "Pontevedra" to listOf(
             PortSegment(7958452L, "San Fins(Cabeiras)", "Pontevedra", 167),
             PortSegment(1884515L, "Xiabre(Catoira)", "Pontevedra", 157),
@@ -294,17 +363,64 @@ object PortRepository {
 
             ),
         "Huesca" to listOf(
+            PortSegment(37292343L, "Ampriu(Benasque)", "Huesca", 167),
+            PortSegment(7503041L, "Tella(Tella)", "Huesca", 162),
+            PortSegment(6806306L, "Pico del Aguila(Arguis)", "Huesca", 157),
+            PortSegment(11849996L, "Portalet(Biescas)", "Huesca", 152),
+            PortSegment(10298980L, "Puertolas", "Huesca", 130),
+            PortSegment(29186375L, "Serveto(Tella)", "Huesca", 127),
+            PortSegment(11735872L, "Serrablo(Boltaña)", "Huesca", 117),
+            PortSegment(36991242L, "Somport(Canfranc)", "Huesca", 116),
+            PortSegment(34790122L, "Cotefablo(Broto)", "Huesca", 111),
+            PortSegment(32087000L, "Fanlo(Broto)", "Huesca", 110),
+            PortSegment(661938L, "San Juan de la Peña(Norte)", "Huesca", 107),
+            PortSegment(20497446L, "Baños de Panticosa(Panticosa)", "Huesca", 100),
+            PortSegment(25438887L, "Gabardito(Valle de Hecho)", "Huesca", 97),
+            PortSegment(31512349L, "Monrepos(Sabiñánigo)", "Huesca", 82),
+            PortSegment(20318383L, "Castillo de Loarre(Loarre)", "Huesca", 82),
+            PortSegment(21278082L, "Rapitán(Jaca)", "Huesca", 68),
 
         ),
         "Teruel" to listOf(
+            PortSegment(24725159L, "Pico del Buitre(Arcos)", "Teruel", 241),
+            PortSegment(31454109L, "San Cristobal(Pitarque)", "Teruel", 174),
+            PortSegment(15717426L, "Puertomingalvo(Aragón)", "Teruel", 152),
+            PortSegment(20451956L, "El Portillo(Albarracín)", "Teruel", 144),
+            PortSegment(32049323L, "Valdelinares(Alcalá)", "Teruel", 142),
+            PortSegment(35262825L, "Javalambre(Arcos)", "Teruel", 128),
+            PortSegment(22637251L, "Tarrascón(Fortanete)", "Teruel", 119),
 
         ),
         "Zaragoza" to listOf(
+            PortSegment(26704556L, "Moncayo(Tarazona)", "Zaragoza", 152),
+            PortSegment(38351600L, "Valdemadera(Aguarón)", "Zaragoza", 132),
+            PortSegment(13098831L, "Beratón(Purujosa)", "Zaragoza", 82),
+            PortSegment(9019646L, "Virgen de Herrera", "Zaragoza", 81),
+            PortSegment(6699811L, "Virgen del Águila(Paniza)", "Zaragoza", 58),
+            PortSegment(17330830L, "Oseja(Jarque)", "Zaragoza", 51),
+            PortSegment(14651450L, "Oseja(Calcena)", "Zaragoza", 40),
 
         ),
         "Barcelona" to listOf(
+            PortSegment(663907L, "Turo de L'Home(Fogars)", "Barcelona", 311),
+            PortSegment(18220653L, "Pradell(Vallcebre)", "Barcelona", 301),
+            PortSegment(37948288L, "Rasos de Peguera(Berga)", "Barcelona", 289),
+            PortSegment(37071311L, "Coll de Pal(Baga)", "Barcelona", 279),
+            PortSegment(9522386L, "Tagamanent", "Barcelona", 204),
+            PortSegment(9405127L, "Bellmunt(Torellò)", "Barcelona", 194),
+            PortSegment(32460842L, "La Creueta(Lillet)", "Barcelona", 182),
+            PortSegment(20780756L, "Santa Fe de Montseny(Celoni)", "Barcelona", 178),
+            PortSegment(696330L, "Collformic(Montseny)", "Barcelona", 145),
+            PortSegment(33513564L, "Monserrat(Monistrol)", "Barcelona", 110),
+            PortSegment(15899748L, "Farrel(Caldes)", "Barcelona", 110),
+            PortSegment(5386615L, "Tibidabo(Barcelona)", "Barcelona", 102),
+            PortSegment(2663324L, "Queralt(Berga)", "Barcelona", 99),
+            PortSegment(35439966L, "Falgars(Lillet)", "Barcelona", 87),
+            PortSegment(37925543L, "Collformic(Seva)", "Barcelona", 72),
+            PortSegment(728506L, "Santa Creu d'Olorda(Rei)", "Barcelona", 62),
 
-        ),
+
+            ),
         "Girona" to listOf(
 
         ),
@@ -326,7 +442,7 @@ object PortRepository {
         "Ciudad Real" to listOf(
             PortSegment(9405947L, "Los Rehoyos(Solana)", "Ciudad Real", 78),
 
-        ),
+            ),
         "Cuenca" to listOf(
             PortSegment(6612565L, "Belvalle(Martinete)", "Cuenca", 103),
             PortSegment(24826880L, "Cabeza del Hoyo(Villar)", "Cuenca", 89),
@@ -348,7 +464,7 @@ object PortRepository {
             PortSegment(18162410L, "El Pielago(Navamorcuende)", "Toledo", 95),
             PortSegment(28053901L, "El Robledillo(San Pablo)", "Toledo", 84),
             PortSegment(7064555L, "Risco de las Paradas(Navahermosa)", "Toledo", 67),
-            ),
+        ),
 
         "Madrid" to listOf(
             PortSegment(10576170L, "La Bola del Mundo", "Madrid", 352),

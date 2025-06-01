@@ -5,10 +5,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.webkit.WebView
 import androidx.fragment.app.Fragment
+import android.util.Log
 import com.example.olymperia.databinding.FragmentMapAchievementsBinding
-import java.util.Locale
+import com.example.olymperia.utils.normalizeProvincia
 
 class MapAchievementsFragment : Fragment() {
 
@@ -42,22 +42,43 @@ class MapAchievementsFragment : Fragment() {
             "la_rioja" to "ES-LO", "salamanca" to "ES-SA", "segovia" to "ES-SG", "sevilla" to "ES-SE",
             "soria" to "ES-SO", "tarragona" to "ES-T", "santa_cruz_tenerife" to "ES-TF", "teruel" to "ES-TE",
             "toledo" to "ES-TO", "valencia" to "ES-V", "valladolid" to "ES-VA", "bizkaia" to "ES-BI",
-            "zamora" to "ES-ZA", "zaragoza" to "ES-Z", "ceuta" to "ES-CE", "melilla" to "ES-ML"
+            "zamora" to "ES-ZA", "zaragoza" to "ES-Z", "ceuta" to "ES-CE", "melilla" to "ES-ML",
+            "cantabria" to "ES-CB", "asturias" to "ES-O"
         )
 
-        val estadosJS = provincias.mapNotNull { (clave, svgId) ->
-            val normalizedKey = clave.lowercase(Locale.ROOT)
+        val baseEstados = provincias.mapNotNull { (clave, svgId) ->
+            val normalizedKey = normalizeProvincia(clave)
+            Log.d("MAPA_DEBUG", "Verificando conquistador_$normalizedKey = ${prefs.getBoolean("conquistador_$normalizedKey", false)}")
+
             when {
                 prefs.getBoolean("rey_$normalizedKey", false) -> "colorProvincia('$svgId', '#FFD700');"
                 prefs.getBoolean("conquistador_$normalizedKey", false) -> "colorProvincia('$svgId', '#C0C0C0');"
                 else -> null
             }
-        }.joinToString("\n")
+        }.toMutableList()
+
+// Forzar Cantabria manualmente si corresponde
+        if (prefs.getBoolean("conquistador_cantabria", false)) {
+            Log.d("MAPA_DEBUG", "✅ Forzando pintado de Cantabria por separado")
+            baseEstados.add("colorProvincia('ES-CB', '#C0C0C0');")
+        }
+
+        val estadosJS = baseEstados.joinToString("\n")
+
+        // Parche específico: si conquistador_cantabria está activado, forzamos la coloración
+        if (prefs.getBoolean("conquistador_cantabria", false)) {
+            Log.d("MAPA_DEBUG", "✅ Forzando pintado de Cantabria por separado")
+            estadosJS.plus("\\ncolorProvincia('ES-CB', '#C0C0C0');")
+        }
+
 
         val html = requireContext().assets.open("mapa.html").bufferedReader().use { it.readText() }
         val finalHtml = html.replace("// ESTADOS_DINAMICOS", estadosJS)
 
+        Log.d("MAPA_HTML", finalHtml.take(300))
+
         binding.webViewMapa.settings.javaScriptEnabled = true
+        binding.webViewMapa.clearCache(true)
         binding.webViewMapa.loadDataWithBaseURL(null, finalHtml, "text/html", "utf-8", null)
     }
 

@@ -82,13 +82,18 @@ class LoginActivity : AppCompatActivity() {
 
                 val prefs = getSharedPreferences("strava_prefs", MODE_PRIVATE)
                 prefs.edit()
+
+                prefs.edit()
                     .putString("access_token", resp.accessToken)
                     .putString("refresh_token", resp.refreshToken)
                     .putLong("expires_at", resp.expiresAt)
+                    .putLong("athlete_id", resp.athlete.id) // ✅ Este es el que falta
                     .putString("athlete_name", resp.athlete.firstname + " " + resp.athlete.lastname)
                     .putString("avatar_url", resp.athlete.profile_medium)
-
                     .apply()
+
+
+
 
                 startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                 finish()

@@ -1,50 +1,32 @@
-package com.example.olymperia.ui.achievements
+package com.example.olymperia.utils
 
 import android.content.Context
 import android.util.Log
+import com.example.olymperia.model.Segment
 import com.example.olymperia.repository.PortRepository
-import com.example.olymperia.utils.ScoreManager
 
 object AchievementEvaluator {
-
     fun evaluarLogrosPorProvincia(
         context: Context,
-        effortsPorSegmento: Map<Long, List<Any>> // el tipo real es SegmentEffort
+        effortsPorSegmento: Map<Long, List<Any>>
     ) {
         val prefs = context.getSharedPreferences("strava_prefs", Context.MODE_PRIVATE)
         val editor = prefs.edit()
 
-        val segmentos = PortRepository.getAllSegments()
-        val porProvincia = segmentos
-            .filter { it.points >= 100 }
+        val provincias = PortRepository.getAllSegments()
             .groupBy { it.province }
 
-        porProvincia.forEach { (provinciaOriginal, puertos) ->
-            val provincia = provinciaOriginal.lowercase().replace(" ", "_")
-            Log.d("LOGROS", "Evaluando $provincia: ${puertos.size} puertos posibles")
-
-            val completadosEnProvincia = puertos.count { port ->
-                val efforts = effortsPorSegmento[port.id]
-                val tieneEffort = efforts != null && efforts.isNotEmpty()
-                if (tieneEffort) {
-                    Log.d("LOGROS", "✔ ${port.name} completado (${port.id})")
-                    ScoreManager.addPointsIfEligible(context, port.id, 1, port.points)
-                }
-
-                tieneEffort
+        provincias.forEach { (provincia, puertos) ->
+            val completadosEnProvincia = puertos.count {
+                effortsPorSegmento[it.id]?.isNotEmpty() == true
             }
 
 
-            Log.d("LOGROS", "→ Completados en $provincia: $completadosEnProvincia/${puertos.size}")
+            Log.d("LOGROS", "Completados en $provincia: $completadosEnProvincia de ${puertos.size}")
 
-            if (completadosEnProvincia >= 1 && !prefs.getBoolean("conquistador_$provincia", false)) {
-                Log.d("LOGROS", "✅ CONQUISTADOR logrado en $provincia")
+            if (completadosEnProvincia > 0 && !prefs.getBoolean("conquistador_$provincia", false)) {
+                Log.d("LOGROS", "🏅 CONQUISTADOR logrado en $provincia")
                 editor.putBoolean("conquistador_$provincia", true)
-            }
-
-            if (completadosEnProvincia == puertos.size && !prefs.getBoolean("rey_$provincia", false)) {
-                Log.d("LOGROS", "👑 REY logrado en $provincia")
-                editor.putBoolean("rey_$provincia", true)
             }
         }
 
