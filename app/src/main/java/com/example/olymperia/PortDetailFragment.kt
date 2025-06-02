@@ -1,10 +1,11 @@
 package com.example.olymperia.ui
 
+import android.app.Dialog
 import android.content.Context
+import android.media.MediaPlayer
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
@@ -15,7 +16,7 @@ import com.example.olymperia.network.StravaApi
 import com.example.olymperia.repository.PortRepository
 import com.example.olymperia.utils.ScoreManager
 import kotlinx.coroutines.launch
-import com.google.android.material.snackbar.Snackbar
+import com.example.olymperia.R
 
 class PortDetailFragment : Fragment() {
 
@@ -78,13 +79,24 @@ class PortDetailFragment : Fragment() {
                 if (mensaje != null) {
                     val total = ScoreManager.getTotalPoints(requireContext())
                     val textoFinal = "$mensaje\nTotal actual: $total"
-                    binding.tvResultadoPuntos.text = textoFinal
-                    binding.tvResultadoPuntos.visibility = View.VISIBLE
-                    Snackbar.make(requireView(), textoFinal, Snackbar.LENGTH_LONG).show()
-                }
 
-                else {
-                    Snackbar.make(requireView(), "Subido $completedCount veces — sin puntos nuevos", Snackbar.LENGTH_SHORT).show()
+                    val dialog = Dialog(requireContext())
+                    dialog.setContentView(R.layout.dialog_points_earned)
+                    dialog.window?.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                    dialog.window?.setGravity(Gravity.CENTER)
+
+                    val tv = dialog.findViewById<TextView>(R.id.tvPointsMessage)
+                    tv.text = textoFinal
+
+                    val mediaPlayer = MediaPlayer.create(requireContext(), R.raw.honor_unlocked)
+                    mediaPlayer?.apply {
+                        setOnCompletionListener { player -> player.release() }
+                        start()
+                    }
+
+                    dialog.show()
+                } else {
+                    Toast.makeText(requireContext(), "Subido $completedCount veces — sin puntos nuevos", Toast.LENGTH_SHORT).show()
                 }
 
                 cargarPuertos()

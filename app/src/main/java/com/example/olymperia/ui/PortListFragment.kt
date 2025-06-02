@@ -1,5 +1,6 @@
 package com.example.olymperia.ui
 
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import com.example.olymperia.PortAdapter
 import com.example.olymperia.ui.HonorUnlockedDialog
 import com.example.olymperia.utils.ScoreManager
 import com.example.olymperia.network.StravaApi
+import com.example.olymperia.R
 import kotlinx.coroutines.launch
 
 class PortListFragment : Fragment() {
@@ -49,12 +51,9 @@ class PortListFragment : Fragment() {
             val isTokenValid = !token.isNullOrEmpty() && currentTime < expiresAt && athleteId != -1L
             Log.d("DEBUG_TOKEN_CHECK", "Token=$token, athleteId=$athleteId, expiresAt=$expiresAt, now=${System.currentTimeMillis() / 1000}")
 
-
             if (isTokenValid) {
                 val strava = StravaApi.create(token!!)
                 Log.d("DEBUG_TOKEN", "Token: $token, AthleteId: $athleteId, ExpiresAt: $expiresAt, Now: ${System.currentTimeMillis() / 1000}")
-
-                // No se pasa el token aquí
 
                 lifecycleScope.launch {
                     try {
@@ -78,13 +77,33 @@ class PortListFragment : Fragment() {
                             }.show(parentFragmentManager, "honor_dialog")
                         }
 
+                        val tv = binding.tvResultadoPuntos
                         if (!resultado.isNullOrEmpty()) {
-                            binding.tvResultadoPuntos.text = "🏆 $resultado"
+                            tv.text = "🏆 $resultado"
                         } else {
-                            binding.tvResultadoPuntos.text = "✅ Ya has registrado todos los esfuerzos de Strava."
+                            tv.text = "✅ Ya has registrado todos los esfuerzos de Strava."
                         }
 
-                        binding.tvResultadoPuntos.visibility = View.VISIBLE
+                        tv.scaleX = 0.8f
+                        tv.scaleY = 0.8f
+                        tv.alpha = 0f
+                        tv.visibility = View.VISIBLE
+
+                        tv.animate()
+                            .scaleX(1f)
+                            .scaleY(1f)
+                            .alpha(1f)
+                            .setDuration(300)
+                            .start()
+
+                        val mediaPlayer = MediaPlayer.create(requireContext(), R.raw.honor_unlocked)
+                        mediaPlayer?.apply {
+                            setOnCompletionListener { player -> player.release() }
+                            start()
+                        }
+
+                        // Eliminado temporizador de cierre automático: el usuario debe tocar para cerrarlo
+
                         adapter.notifyItemChanged(ports.indexOf(port))
                         binding.btnVolverInicio.setOnClickListener {
                             requireActivity().onBackPressedDispatcher.onBackPressed()

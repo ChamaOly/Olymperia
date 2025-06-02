@@ -60,11 +60,13 @@ class PortAdapter(
                 else -> R.drawable.bg_categoria_1
             }
             itemView.setBackgroundResource(fondo)
+            itemView.alpha = 1f  // asegura que no quede sombreado de otro ítem
+
 
             val iconRes = when {
-                vecesCompletado >= 10 -> R.drawable.ic_crown
-                vecesCompletado >= 5 -> R.drawable.ic_diamond
-                vecesCompletado >= 3 -> R.drawable.ic_star
+                vecesCompletado >= 10 -> R.drawable.ic_repeat_10
+                vecesCompletado >= 5 -> R.drawable.ic_repeat_5
+                vecesCompletado >= 3 -> R.drawable.ic_repeat_3
                 vecesCompletado >= 1 -> R.drawable.ic_check
                 else -> 0
             }
