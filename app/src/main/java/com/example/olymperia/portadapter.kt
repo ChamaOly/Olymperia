@@ -1,5 +1,6 @@
 package com.example.olymperia
 
+import android.app.Activity
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +9,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.olymperia.model.PortSegment
+import com.example.olymperia.utils.AnimationUtils
 import com.example.olymperia.utils.ScoreManager
 
 class PortAdapter(
@@ -74,13 +76,26 @@ class PortAdapter(
             if (iconRes != 0) {
                 ivCompletado.setImageResource(iconRes)
                 ivCompletado.visibility = View.VISIBLE
+
             } else {
                 ivCompletado.visibility = View.GONE
             }
 
             itemView.setOnClickListener {
                 onClick(port)
+
+                if (iconRes != 0) {
+                    AnimationUtils.animarDesbloqueoDeSello(
+                        context as Activity,
+                        iconRes,
+                        ivCompletado
+                    )
+                }
             }
+
         }
     }
+    var ultimaVistaSello: View? = null
+    var ultimoIcono: Int = 0
+
 }

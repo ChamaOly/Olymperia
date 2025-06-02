@@ -1,6 +1,7 @@
 package com.example.olymperia.model
 
 data class PortSegment(
+
     val id: Long,               // Strava segment ID
     val name: String,
     val province: String,

@@ -18,9 +18,15 @@ import com.example.olymperia.ui.HonorUnlockedDialog
 import com.example.olymperia.utils.ScoreManager
 import com.example.olymperia.network.StravaApi
 import com.example.olymperia.R
+import com.example.olymperia.utils.AchievementManager
+import com.example.olymperia.utils.AnimationUtils
+import com.example.olymperia.utils.AnimationUtils.animarDesbloqueoDeSello
+import com.example.olymperia.utils.UserProgressManager
 import kotlinx.coroutines.launch
 
 class PortListFragment : Fragment() {
+    private var puertoActual: PortSegment? = null
+
 
     private var _binding: FragmentPortListBinding? = null
     private val binding get() = _binding!!
@@ -66,6 +72,7 @@ class PortListFragment : Fragment() {
                         Log.d("EFFORTS_DEBUG", "Segment ${port.id} efforts = ${efforts.size}")
 
                         val resultado = ScoreManager.procesarEsfuerzosStrava(
+
                             requireContext(),
                             port.id,
                             efforts.size,
@@ -76,6 +83,17 @@ class PortListFragment : Fragment() {
                                 Log.d("HONOR", "Honor desbloqueado: ${honor.nombre}")
                             }.show(parentFragmentManager, "honor_dialog")
                         }
+                        if (!resultado.isNullOrEmpty()) {
+                            // Registrar el puerto completado
+                            UserProgressManager.addCompletedSegment(requireContext(), port.id)
+
+                            // Verificar logros nuevos
+                            val nuevosLogros = AchievementManager.checkAndUnlockAchievements(requireContext())
+                            if (nuevosLogros.isNotEmpty()) {
+                                AchievementDisplay.showAchievementDialog(requireContext(), nuevosLogros.first())
+                            }
+                        }
+
 
                         val tv = binding.tvResultadoPuntos
                         if (!resultado.isNullOrEmpty()) {
@@ -125,9 +143,21 @@ class PortListFragment : Fragment() {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
+
         binding.tvResultadoPuntos.setOnClickListener {
             it.visibility = View.GONE
+
+            val destinoView = adapter.ultimaVistaSello
+            val iconRes = adapter.ultimoIcono
+
+            if (destinoView != null && iconRes != 0) {
+                animarDesbloqueoDeSello(requireActivity(), iconRes, destinoView)
+            }
         }
+
+
+
+
     }
 
     override fun onDestroyView() {
