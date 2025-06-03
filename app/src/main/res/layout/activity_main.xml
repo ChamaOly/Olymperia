@@ -17,15 +17,16 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
+        style="@style/BottomNavCustomStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@color/asphalt_dark"
         app:menu="@menu/bottom_nav_menu"
-
+        app:labelVisibilityMode="labeled"
         app:itemIconTint="@color/bottom_nav_colors"
-        app:itemTextColor="@color/bottom_nav_colors"
-        />
+        app:itemTextColor="@color/bottom_nav_colors" />
+
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

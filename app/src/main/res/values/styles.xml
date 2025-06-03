@@ -6,6 +6,11 @@
         <item name="android:textColor">?attr/colorOnPrimary</item>
 
     </style>
+    <style name="BottomNavCustomStyle" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="itemIconSize">28dp</item> <!-- Tamaño de íconos -->
+        <item name="android:textSize">14sp</item> <!-- Tamaño de texto -->
+    </style>
+
 
     <!-- Para los encabezados de sección en TrophyRoomFragment -->
     <style name="SectionHeader">
@@ -27,6 +32,8 @@
         -- por si falta cinzel -->
 
     </style>
+
+
 
 
 </resources>
