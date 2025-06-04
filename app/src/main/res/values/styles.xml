@@ -10,6 +10,42 @@
         <item name="itemIconSize">28dp</item> <!-- Tamaño de íconos -->
         <item name="android:textSize">14sp</item> <!-- Tamaño de texto -->
     </style>
+    <style name="AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:background">#FFFAF0</item>
+    </style>
+    <style name="RankingTitleText">
+        <item name="android:textColor">@color/golden_burnished</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/cinzel_regular</item>
+        <item name="android:shadowColor">#AA000000</item>
+        <item name="android:shadowDx">2</item>
+        <item name="android:shadowDy">2</item>
+        <item name="android:shadowRadius">3</item>
+    </style>
+
+    <!-- Estilo para números grandes centrados (nivel) -->
+    <style name="RankingLevelNumber">
+        <item name="android:textColor">@color/golden_burnished</item>
+        <item name="android:textSize">42sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">@font/cinzel_regular</item>
+        <item name="android:gravity">center</item>
+        <item name="android:shadowColor">#66000000</item>
+        <item name="android:shadowDx">3</item>
+        <item name="android:shadowDy">3</item>
+        <item name="android:shadowRadius">4</item>
+    </style>
+
+    <!-- Estilo para puntos -->
+    <style name="RankingPointsText">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">@font/cinzel_regular</item>
+        <item name="android:gravity">center</item>
+    </style>
+
+
 
 
     <!-- Para los encabezados de sección en TrophyRoomFragment -->

@@ -22,7 +22,7 @@ class SplashActivity : AppCompatActivity() {
 
 
         CoroutineScope(Dispatchers.Main).launch {
-            delay(4000)
+            delay(6000)
 
             val prefs = getSharedPreferences("strava_prefs", MODE_PRIVATE)
             val token = prefs.getString("access_token", null)

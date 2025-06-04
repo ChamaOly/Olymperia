@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.olymperia.R
 import com.example.olymperia.model.Honor
 
+
 class HonorAdapter(
     private val honors: List<Honor>,
     private val onClick: (Honor) -> Unit
@@ -32,9 +33,11 @@ class HonorAdapter(
             val context = itemView.context
             val id = when {
                 honor.nombre.startsWith("Conquistador de ") -> "conquistador_" + honor.nombre.removePrefix("Conquistador de ").lowercase()
+                honor.nombre == "Señor de la Demanda" -> "senor_de_la_demanda"
                 honor.nombre.startsWith("Rey de ") -> "rey_" + honor.nombre.removePrefix("Rey de ").lowercase()
                 else -> honor.nombre.lowercase().replace(" ", "_")
             }
+
             val estaDesbloqueado = com.example.olymperia.utils.HonorManager.estaHonorDesbloqueado(context, id)
             honor.desbloqueado = estaDesbloqueado
             tvHonor.text = honor.nombre

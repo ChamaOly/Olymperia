@@ -3,7 +3,6 @@ package com.example.olymperia.ui
 import android.app.Dialog
 import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
@@ -20,28 +19,15 @@ object AchievementDisplay {
         val icon = view.findViewById<ImageView>(R.id.ivAchievementIcon)
         val container = view.findViewById<ViewGroup>(R.id.achievementDialogContainer)
 
-        when (achievement.id) {
-            "senor_demanda" -> {
-                // Imagen personalizada
-                val fullImage = view.findViewById<ImageView>(R.id.ivAchievementFull)
-                fullImage.setImageResource(R.drawable.logro_senor_demanda)
-                fullImage.visibility = View.VISIBLE
+        title.text = achievement.name
+        icon.visibility = ViewGroup.GONE
 
-                title.visibility = View.GONE
-                icon.visibility = View.GONE
-            }
-
-            else -> {
-                title.text = achievement.name
-                icon.visibility = View.GONE // o usar setImageResource(...) si tienes iconos personalizados
-                title.visibility = View.VISIBLE
-                val backgroundRes = when (achievement.id) {
-                    "conquistador" -> R.drawable.bg_honor_conquistador
-                    else -> R.drawable.bg_honor_elite
-                }
-                container.setBackgroundResource(backgroundRes)
-            }
+        val backgroundRes = when (achievement.id) {
+            "conquistador" -> R.drawable.bg_honor_conquistador
+            "senor_demanda" -> R.drawable.bg_honor_maestro
+            else -> R.drawable.bg_honor_elite
         }
+        container.setBackgroundResource(backgroundRes)
 
         dialog.setContentView(view)
         dialog.window?.setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT)

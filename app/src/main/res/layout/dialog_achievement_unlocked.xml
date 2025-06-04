@@ -24,11 +24,4 @@
         android:textStyle="bold"
         android:textColor="@android:color/white"
         android:gravity="center" />
-    <ImageView
-        android:id="@+id/ivAchievementFull"
-        android:layout_width="320dp"
-        android:layout_height="wrap_content"
-        android:scaleType="fitCenter"
-        android:adjustViewBounds="true"
-        android:src="@drawable/logro_senor_demanda" />
 </LinearLayout>

@@ -1,9 +1,13 @@
 package com.example.olymperia
 
 import android.content.Intent
+import android.graphics.LinearGradient
+import android.graphics.Shader
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
@@ -32,6 +36,17 @@ class LoginActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+
+        val tvTitle = findViewById<TextView>(R.id.tvAppTitle)
+        val paint = tvTitle.paint
+        val width = paint.measureText(tvTitle.text.toString())
+        val textShader = LinearGradient(
+            0f, 0f, width, tvTitle.textSize,
+            intArrayOf(Color.parseColor("#FFD700"), Color.parseColor("#FFA500")),
+            null,
+            Shader.TileMode.CLAMP
+        )
+        tvTitle.paint.shader = textShader
 
         val prefs = getSharedPreferences("strava_prefs", MODE_PRIVATE)
         val token = prefs.getString("access_token", null)
@@ -82,18 +97,13 @@ class LoginActivity : AppCompatActivity() {
 
                 val prefs = getSharedPreferences("strava_prefs", MODE_PRIVATE)
                 prefs.edit()
-
-                prefs.edit()
                     .putString("access_token", resp.accessToken)
                     .putString("refresh_token", resp.refreshToken)
                     .putLong("expires_at", resp.expiresAt)
-                    .putLong("athlete_id", resp.athlete.id) // ✅ Este es el que falta
+                    .putLong("athlete_id", resp.athlete.id)
                     .putString("athlete_name", resp.athlete.firstname + " " + resp.athlete.lastname)
                     .putString("avatar_url", resp.athlete.profile_medium)
                     .apply()
-
-
-
 
                 startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                 finish()

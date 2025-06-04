@@ -1,20 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:padding="8dp"
+    android:id="@+id/containerRanking"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center_horizontal"
+    android:background="#101010">
 
+    <!-- División del usuario -->
     <TextView
-        android:id="@+id/tvYourRank"
+        android:id="@+id/tvDivision"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tu posición: #23 – Nivel 12"
-        android:textSize="16sp"
-        android:layout_marginBottom="8dp"/>
+        android:text="División 5"
+        android:textColor="#FFD700"
+        android:textSize="20sp"
+        android:textStyle="bold" />
 
+    <!-- Nivel del usuario -->
+    <TextView
+        android:id="@+id/tvNivel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nivel 34"
+        android:textColor="#FFFFFF"
+        android:textSize="40sp"
+        android:textStyle="bold"
+        android:layout_marginTop="12dp" />
+
+    <!-- Puntos del usuario -->
+    <TextView
+        android:id="@+id/tvPuntos"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1420 puntos"
+        android:textColor="#AAAAAA"
+        android:textSize="16sp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Lista de amigos -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvRanking"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp" />
+
 </LinearLayout>

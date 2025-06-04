@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "336405274479",
+    "project_id": "olymperia",
+    "storage_bucket": "olymperia.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336405274479:android:77db5497a060a4cc97129a",
+        "android_client_info": {
+          "package_name": "com.example.olymperia"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-c4W-HmCr8TUt33lQniwyX2W8KNv5au0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:336405274479:android:157d965a7f60e5c497129a",
+        "android_client_info": {
+          "package_name": "com.olymperia"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB-c4W-HmCr8TUt33lQniwyX2W8KNv5au0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

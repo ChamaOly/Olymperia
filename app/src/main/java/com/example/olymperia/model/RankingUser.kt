@@ -1,4 +1,7 @@
 package com.example.olymperia.model
 
-class RankingUser {
-}
+data class RankingUser(
+    val nombre: String,
+    val nivel: Int,
+    val puntos: Int
+)
