@@ -18,11 +18,7 @@ object AchievementManager {
             name = "Cetro de la Demanda",
             requiredPorts = listOf(34343L, 3534L, 334L, 4545L)
         ),
-        Achievement(
-            id = "senor_demanda",
-            name = "Señor de la Demanda",
-            requiredPorts = listOf(10141775L, 38078264L, 17375890L, 5356599L)
-        )
+
 
 
         // Puedes añadir más logros aquí

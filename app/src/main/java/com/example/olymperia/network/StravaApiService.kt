@@ -14,6 +14,11 @@ interface StravaApiService {
     suspend fun getAthlete(
         @Header("Authorization") auth: String
     ): Athlete
+    @GET("athlete/friends")
+    suspend fun getAthleteFriends(
+        @Header("Authorization") authHeader: String
+    ): List<Athlete>
+
 
     @GET("segments/{segmentId}/all_efforts")
     suspend fun getSegmentEfforts(

@@ -24,7 +24,7 @@
         android:fontFamily="@font/cinzel_regular"
         android:text="Olymperia"
         android:textColor="@color/golden_burnished"
-        android:textSize="50sp"
+        android:textSize="40sp"
         android:textStyle="bold"
         android:shadowColor="#AA000000"
         android:shadowDx="3"

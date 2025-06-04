@@ -1,4 +1,5 @@
 package com.example.olymperia.ui
+import com.google.firebase.database.FirebaseDatabase
 
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -26,7 +27,6 @@ import kotlinx.coroutines.launch
 
 class PortListFragment : Fragment() {
     private var puertoActual: PortSegment? = null
-
 
     private var _binding: FragmentPortListBinding? = null
     private val binding get() = _binding!!
@@ -59,7 +59,6 @@ class PortListFragment : Fragment() {
 
             if (isTokenValid) {
                 val strava = StravaApi.create(token!!)
-                Log.d("DEBUG_TOKEN", "Token: $token, AthleteId: $athleteId, ExpiresAt: $expiresAt, Now: ${System.currentTimeMillis() / 1000}")
 
                 lifecycleScope.launch {
                     try {
@@ -69,10 +68,7 @@ class PortListFragment : Fragment() {
                             athleteId = athleteId
                         )
 
-                        Log.d("EFFORTS_DEBUG", "Segment ${port.id} efforts = ${efforts.size}")
-
                         val resultado = ScoreManager.procesarEsfuerzosStrava(
-
                             requireContext(),
                             port.id,
                             efforts.size,
@@ -83,17 +79,19 @@ class PortListFragment : Fragment() {
                                 Log.d("HONOR", "Honor desbloqueado: ${honor.nombre}")
                             }.show(parentFragmentManager, "honor_dialog")
                         }
+
                         if (!resultado.isNullOrEmpty()) {
-                            // Registrar el puerto completado
                             UserProgressManager.addCompletedSegment(requireContext(), port.id)
 
-                            // Verificar logros nuevos
+                            val firebaseDb = FirebaseDatabase.getInstance("https://olymperia-default-rtdb.europe-west1.firebasedatabase.app")
+                            val firebaseRef = firebaseDb.getReference("usuarios").child(athleteId.toString())
+                            firebaseRef.child("puertosCompletados").push().setValue(port.name)
+
                             val nuevosLogros = AchievementManager.checkAndUnlockAchievements(requireContext())
                             if (nuevosLogros.isNotEmpty()) {
                                 AchievementDisplay.showAchievementDialog(requireContext(), nuevosLogros.first())
                             }
                         }
-
 
                         val tv = binding.tvResultadoPuntos
                         if (!resultado.isNullOrEmpty()) {
@@ -120,8 +118,6 @@ class PortListFragment : Fragment() {
                             start()
                         }
 
-                        // Eliminado temporizador de cierre automático: el usuario debe tocar para cerrarlo
-
                         adapter.notifyItemChanged(ports.indexOf(port))
                         binding.btnVolverInicio.setOnClickListener {
                             requireActivity().onBackPressedDispatcher.onBackPressed()
@@ -143,7 +139,6 @@ class PortListFragment : Fragment() {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
-
         binding.tvResultadoPuntos.setOnClickListener {
             it.visibility = View.GONE
 
@@ -154,10 +149,6 @@ class PortListFragment : Fragment() {
                 animarDesbloqueoDeSello(requireActivity(), iconRes, destinoView)
             }
         }
-
-
-
-
     }
 
     override fun onDestroyView() {

@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center_vertical"
-            android:background="@drawable/bg_card_glass"
+            android:background="@drawable/bg_categoria_default"
             android:padding="12dp"
             android:layout_marginBottom="16dp"
             android:elevation="4dp">
@@ -28,7 +28,7 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:src="@drawable/ic_user"
-                android:background="@drawable/profile_background"
+                android:background="@drawable/circle_yellow"
 
                 android:padding="4dp"
                 android:scaleType="centerCrop"
@@ -43,7 +43,7 @@
                 android:text="Nombre del atleta"
                 android:textSize="24sp"
                 android:textStyle="bold"
-                android:textColor="@color/white"
+                android:textColor="@color/gold_bright"
                 android:fontFamily="@font/cinzel_bold" />
         </LinearLayout>
 
@@ -57,7 +57,7 @@
             android:textStyle="bold"
             android:padding="10dp"
             android:background="@drawable/ic_division10"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:layout_marginBottom="10dp" />
 
         <!-- Nivel y puntos -->
@@ -132,7 +132,7 @@
                     android:background="@drawable/bg_categoria_1"
                     android:text="1"
                     android:gravity="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textStyle="bold"
                     android:fontFamily="@font/cinzel_bold" />
 
@@ -160,7 +160,7 @@
                     android:background="@drawable/bg_categoria_2"
                     android:text="2"
                     android:gravity="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textStyle="bold"
                     android:fontFamily="@font/cinzel_bold" />
 
@@ -188,7 +188,7 @@
                     android:background="@drawable/bg_categoria_3"
                     android:text="3"
                     android:gravity="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textStyle="bold"
                     android:fontFamily="@font/cinzel_bold" />
 

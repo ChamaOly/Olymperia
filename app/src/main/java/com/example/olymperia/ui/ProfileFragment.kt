@@ -17,6 +17,8 @@ import com.example.olymperia.ui.Adapters.HighlightedTrophyAdapter
 import com.example.olymperia.utils.ScoreManager
 import com.example.olymperia.utils.HonorManager
 import com.example.olymperia.LoginActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 import resetYReconstruirLogros
 
 class ProfileFragment : Fragment() {
@@ -98,10 +100,19 @@ class ProfileFragment : Fragment() {
             if (avatar != null) editor.putString("avatar_url", avatar)
             editor.apply()
 
+            // 🔥 BORRAR USUARIO EN FIREBASE
+            val uid = FirebaseAuth.getInstance().currentUser?.uid
+            if (uid != null) {
+                val db = FirebaseDatabase.getInstance("https://olymperia-default-rtdb.europe-west1.firebasedatabase.app")
+                db.getReference("usuarios").child(uid).removeValue()
+            }
+
             Toast.makeText(requireContext(), "Usuario reiniciado", Toast.LENGTH_SHORT).show()
             binding.tvAthleteName.text = nombre ?: ""
             binding.tvLevel.text = "Nivel 0"
             binding.imgAvatar.setImageResource(R.drawable.ic_user)
+
+            requireActivity().recreate()
         }
 
         binding.btnLogin.setOnClickListener {
