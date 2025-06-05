@@ -17,8 +17,6 @@ import kotlinx.coroutines.launch
 import com.example.olymperia.utils.ScoreManager
 import kotlinx.coroutines.tasks.await
 
-
-
 class RankingFragment : Fragment() {
 
     private lateinit var binding: FragmentRankingBinding
@@ -36,6 +34,11 @@ class RankingFragment : Fragment() {
         loadRankingDeAmigos()
     }
 
+    override fun onResume() {
+        super.onResume()
+        loadRankingDeAmigos()
+    }
+
     private fun loadRankingDeAmigos() {
         val token = prefs.getString("access_token", null) ?: return
         val currentAthleteId = prefs.getLong("athlete_id", -1L)
@@ -43,7 +46,8 @@ class RankingFragment : Fragment() {
 
         val usuariosRanking = mutableListOf<RankingUser>()
 
-        // Usuario actual primero
+        // Recalcular antes de mostrar y usar valores locales
+        ScoreManager.recalcularPuntuacionTotal(requireContext())
         val total = ScoreManager.getTotalPoints(requireContext())
         val nivel = maxOf(1, total / 200)
         usuariosRanking.add(RankingUser(currentAthleteId, "Tú", nivel, total))
@@ -54,6 +58,7 @@ class RankingFragment : Fragment() {
                 val dbRef = FirebaseDatabase.getInstance("https://olymperia-default-rtdb.europe-west1.firebasedatabase.app").getReference("usuarios")
 
                 amigos.forEach { amigo ->
+                    if (amigo.id == currentAthleteId) return@forEach // omitir al propio usuario
                     val id = amigo.id.toString()
                     try {
                         val snapshot = dbRef.child(id).get().await()
@@ -84,3 +89,5 @@ class RankingFragment : Fragment() {
         }
     }
 }
+
+

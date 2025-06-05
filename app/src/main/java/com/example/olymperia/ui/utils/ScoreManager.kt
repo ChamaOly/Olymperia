@@ -58,6 +58,22 @@ object ScoreManager {
             null
         }
     }
+    fun recalcularPuntuacionTotal(context: Context) {
+        val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+        val editor = prefs.edit()
+        var total = 0
+
+        val segmentos = com.example.olymperia.repository.PortRepository.getAllSegments()
+        for (segment in segmentos) {
+            val threshold = prefs.getInt("port_${segment.id}", 0)
+            total += threshold * segment.points
+        }
+
+        editor.putInt(TOTAL_POINTS_KEY, total)
+        editor.apply()
+        Log.d("SCORE", "🔄 Puntuación total recalculada: $total")
+    }
+
 
     fun incrementCompletedCount(context: Context, segmentId: Long) {
         val prefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
