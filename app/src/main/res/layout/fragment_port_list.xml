@@ -23,7 +23,11 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerProvinces"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:paddingBottom="80dp"
+            android:paddingTop="8dp"
+            />
 
         <TextView
             android:id="@+id/tvResultadoPuntos"
@@ -45,6 +49,7 @@
             android:shadowDx="2"
             android:shadowDy="2"
             android:shadowRadius="4" />
+
 
     </FrameLayout>
 </LinearLayout>

@@ -1,5 +1,4 @@
 package com.example.olymperia.ui
-import com.google.firebase.database.FirebaseDatabase
 
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -24,9 +23,14 @@ import com.example.olymperia.utils.AnimationUtils
 import com.example.olymperia.utils.AnimationUtils.animarDesbloqueoDeSello
 import com.example.olymperia.utils.UserProgressManager
 import kotlinx.coroutines.launch
+// NUEVO IMPORTANTE
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
+
 
 class PortListFragment : Fragment() {
     private var puertoActual: PortSegment? = null
+
 
     private var _binding: FragmentPortListBinding? = null
     private val binding get() = _binding!!
@@ -59,6 +63,7 @@ class PortListFragment : Fragment() {
 
             if (isTokenValid) {
                 val strava = StravaApi.create(token!!)
+                Log.d("DEBUG_TOKEN", "Token: $token, AthleteId: $athleteId, ExpiresAt: $expiresAt, Now: ${System.currentTimeMillis() / 1000}")
 
                 lifecycleScope.launch {
                     try {
@@ -68,7 +73,10 @@ class PortListFragment : Fragment() {
                             athleteId = athleteId
                         )
 
+                        Log.d("EFFORTS_DEBUG", "Segment ${port.id} efforts = ${efforts.size}")
+
                         val resultado = ScoreManager.procesarEsfuerzosStrava(
+
                             requireContext(),
                             port.id,
                             efforts.size,
@@ -79,21 +87,44 @@ class PortListFragment : Fragment() {
                                 Log.d("HONOR", "Honor desbloqueado: ${honor.nombre}")
                             }.show(parentFragmentManager, "honor_dialog")
                         }
-
                         if (!resultado.isNullOrEmpty()) {
-                            UserProgressManager.addCompletedSegment(requireContext(), port.id)
+                            // Registrar el puerto completado
+                            val completions = efforts.size
+                            val segmentPoints = port.points * completions
+                            val prefs = requireContext().getSharedPreferences("strava_prefs", 0)
+                            val name = prefs.getString("athlete_name", "Desconocido")
+                            val avatar = prefs.getString("avatar_url", null)
 
-                            val firebaseDb = FirebaseDatabase.getInstance("https://olymperia-default-rtdb.europe-west1.firebasedatabase.app")
-                            val firebaseRef = firebaseDb.getReference("usuarios").child(athleteId.toString())
-                            firebaseRef.child("puertosCompletados").push().setValue(port.name)
+// Recalcular total actualizado (usando ScoreManager si lo mantienes temporalmente)
+                            val updatedTotalPoints = ScoreManager.getTotalPoints(requireContext())
+                            val updatedLevel = maxOf(1, updatedTotalPoints / 200)
 
-                            val nuevosLogros = AchievementManager.checkAndUnlockAchievements(requireContext())
-                            if (nuevosLogros.isNotEmpty()) {
-                                AchievementDisplay.showAchievementDialog(requireContext(), nuevosLogros.first())
-                            }
+                            val firebase = FirebaseFirestore.getInstance()
+                            val userRef =
+                                firebase.collection("users").document(athleteId.toString())
+
+                            val firebaseUid = com.google.firebase.auth.FirebaseAuth.getInstance().currentUser?.uid
+
+                            val updates = mapOf(
+                                "firebaseUid" to firebaseUid,
+                                "segments.${port.id}.completions" to completions,
+                                "segments.${port.id}.points" to segmentPoints,
+                                "totalPoints" to updatedTotalPoints,
+                                "level" to updatedLevel,
+                                "name" to name,
+                                "avatarUrl" to avatar,
+                                "last_updated" to System.currentTimeMillis()
+                            )
+
+                            userRef.set(updates, SetOptions.merge())
+
+
+                            userRef.set(updates, SetOptions.merge())
                         }
 
-                        val tv = binding.tvResultadoPuntos
+
+
+                            val tv = binding.tvResultadoPuntos
                         if (!resultado.isNullOrEmpty()) {
                             tv.text = "🏆 $resultado"
                         } else {
@@ -118,6 +149,8 @@ class PortListFragment : Fragment() {
                             start()
                         }
 
+                        // Eliminado temporizador de cierre automático: el usuario debe tocar para cerrarlo
+
                         adapter.notifyItemChanged(ports.indexOf(port))
                         binding.btnVolverInicio.setOnClickListener {
                             requireActivity().onBackPressedDispatcher.onBackPressed()
@@ -139,6 +172,7 @@ class PortListFragment : Fragment() {
             requireActivity().onBackPressedDispatcher.onBackPressed()
         }
 
+
         binding.tvResultadoPuntos.setOnClickListener {
             it.visibility = View.GONE
 
@@ -149,6 +183,10 @@ class PortListFragment : Fragment() {
                 animarDesbloqueoDeSello(requireActivity(), iconRes, destinoView)
             }
         }
+
+
+
+
     }
 
     override fun onDestroyView() {

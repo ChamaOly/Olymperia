@@ -51,6 +51,9 @@ dependencies {
     implementation("com.google.firebase:firebase-database-ktx")
     
     implementation(platform("com.google.firebase:firebase-bom:33.14.0"))
+    // Firestore
+    implementation ("com.google.firebase:firebase-firestore-ktx:24.4.4")
+
 
 
     // Core

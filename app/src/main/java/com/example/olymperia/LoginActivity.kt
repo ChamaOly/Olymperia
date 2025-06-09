@@ -20,9 +20,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 class LoginActivity : AppCompatActivity() {
 
     companion object {
-        private const val CLIENT_ID     = "157130"
+        private const val CLIENT_ID = "157130"
         private const val CLIENT_SECRET = "4999cea79272497103064b92f627d37e06d89cdc"
-        private const val REDIRECT_URI  = "olymperia://vulturia.com"
+        private const val REDIRECT_URI = "olymperia://vulturia.com"
     }
 
     private val authService: StravaAuthService by lazy {
@@ -38,15 +38,24 @@ class LoginActivity : AppCompatActivity() {
         setContentView(R.layout.activity_login)
 
         val tvTitle = findViewById<TextView>(R.id.tvAppTitle)
+
+// Crear degradado dorado
         val paint = tvTitle.paint
         val width = paint.measureText(tvTitle.text.toString())
         val textShader = LinearGradient(
             0f, 0f, width, tvTitle.textSize,
-            intArrayOf(Color.parseColor("#FFD700"), Color.parseColor("#FFA500")),
+            intArrayOf(
+                Color.parseColor("#FFD700"), // dorado claro
+                Color.parseColor("#FF8C00")  // dorado más oscuro
+            ),
             null,
             Shader.TileMode.CLAMP
         )
         tvTitle.paint.shader = textShader
+
+// Añadir sombra
+        tvTitle.setShadowLayer(8f, 4f, 4f, Color.BLACK)
+
 
         val prefs = getSharedPreferences("strava_prefs", MODE_PRIVATE)
         val token = prefs.getString("access_token", null)
@@ -89,10 +98,10 @@ class LoginActivity : AppCompatActivity() {
         lifecycleScope.launch {
             try {
                 val resp: TokenResponse = authService.exchangeToken(
-                    clientId     = CLIENT_ID,
+                    clientId = CLIENT_ID,
                     clientSecret = CLIENT_SECRET,
-                    code         = code,
-                    redirectUri  = REDIRECT_URI
+                    code = code,
+                    redirectUri = REDIRECT_URI
                 )
 
                 val prefs = getSharedPreferences("strava_prefs", MODE_PRIVATE)
@@ -101,15 +110,18 @@ class LoginActivity : AppCompatActivity() {
                     .putString("refresh_token", resp.refreshToken)
                     .putLong("expires_at", resp.expiresAt)
                     .putLong("athlete_id", resp.athlete.id)
-                    .putString("athlete_name", resp.athlete.firstname + " " + resp.athlete.lastname)
+                    .putString("athlete_name", "${resp.athlete.firstname} ${resp.athlete.lastname}")
                     .putString("avatar_url", resp.athlete.profile_medium)
                     .apply()
 
                 startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                 finish()
+
             } catch (e: Exception) {
-                Toast.makeText(this@LoginActivity,
-                    "Auth error: ${e.localizedMessage}", Toast.LENGTH_LONG).show()
+                Toast.makeText(
+                    this@LoginActivity,
+                    "Error con Strava: ${e.localizedMessage}", Toast.LENGTH_LONG
+                ).show()
             }
         }
     }

@@ -8,37 +8,45 @@
     android:gravity="center_horizontal"
     android:background="#101010">
 
-    <!-- División del usuario -->
-    <TextView
-        android:id="@+id/tvDivision"
-        android:layout_width="wrap_content"
+    <!-- Tarjeta del usuario actual -->
+    <LinearLayout
+        android:id="@+id/userCard"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="División 5"
-        android:textColor="#FFD700"
-        android:textSize="20sp"
-        android:textStyle="bold" />
+        android:orientation="vertical"
+        android:background="@drawable/bg_user_card"
+        android:padding="16dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center_horizontal">
 
-    <!-- Nivel del usuario -->
-    <TextView
-        android:id="@+id/tvNivel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Nivel 34"
-        android:textColor="#FFFFFF"
-        android:textSize="40sp"
-        android:textStyle="bold"
-        android:layout_marginTop="12dp" />
+        <TextView
+            android:id="@+id/tvDivision"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="#FFD700"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
-    <!-- Puntos del usuario -->
-    <TextView
-        android:id="@+id/tvPuntos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="1420 puntos"
-        android:textColor="#AAAAAA"
-        android:textSize="16sp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp" />
+        <TextView
+            android:id="@+id/tvNivel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="#FFFFFF"
+            android:textSize="40sp"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp" />
+
+        <TextView
+            android:id="@+id/tvPuntos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="#AAAAAA"
+            android:textSize="16sp"
+            android:layout_marginTop="4dp" />
+    </LinearLayout>
 
     <!-- Lista de amigos -->
     <androidx.recyclerview.widget.RecyclerView
@@ -49,5 +57,4 @@
         android:clipToPadding="false"
         android:paddingTop="8dp"
         android:paddingBottom="8dp" />
-
 </LinearLayout>

@@ -15,10 +15,10 @@ import com.example.olymperia.databinding.FragmentProfileBinding
 import com.example.olymperia.repository.PortRepository
 import com.example.olymperia.ui.Adapters.HighlightedTrophyAdapter
 import com.example.olymperia.utils.ScoreManager
-import com.example.olymperia.utils.HonorManager
 import com.example.olymperia.LoginActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
 import resetYReconstruirLogros
 
 class ProfileFragment : Fragment() {
@@ -35,53 +35,60 @@ class ProfileFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val prefs = requireContext().getSharedPreferences("strava_prefs", 0)
+        val athleteId = prefs.getLong("athlete_id", -1L)
 
-        try {
-            val total = ScoreManager.getTotalPoints(requireContext())
-            val level = maxOf(1, total / 200)
-            val division = getDivision(level)
+        if (athleteId != -1L) {
+            FirebaseFirestore.getInstance()
+                .collection("users")
+                .document(athleteId.toString())
+                .get()
+                .addOnSuccessListener { document ->
+                    val total = (document.getLong("totalPoints") ?: 0).toInt()
+                    val level = maxOf(1, total / 200)
+                    val division = getDivision(level)
 
-            binding.tvLevel.text = "Nivel $level – $total puntos"
-            binding.tvDivisionTexto.text = "División $division"
+                    binding.tvLevel.text = "Nivel $level – $total puntos"
+                    binding.tvDivisionTexto.text = "División $division"
 
-            val fondo = when (division) {
-                1 -> R.drawable.ic_division1
-                2 -> R.drawable.ic_division2
-                3 -> R.drawable.ic_division3
-                4 -> R.drawable.ic_division4
-                5 -> R.drawable.ic_division5
-                6 -> R.drawable.ic_division6
-                7 -> R.drawable.ic_division7
-                8 -> R.drawable.ic_division8
-                9 -> R.drawable.ic_division9
-                10 -> R.drawable.ic_division10
-                else -> R.drawable.ic_division10
-            }
-            binding.tvDivisionTexto.setBackgroundResource(fondo)
+                    val fondo = when (division) {
+                        1 -> R.drawable.ic_division1
+                        2 -> R.drawable.ic_division2
+                        3 -> R.drawable.ic_division3
+                        4 -> R.drawable.ic_division4
+                        5 -> R.drawable.ic_division5
+                        6 -> R.drawable.ic_division6
+                        7 -> R.drawable.ic_division7
+                        8 -> R.drawable.ic_division8
+                        9 -> R.drawable.ic_division9
+                        10 -> R.drawable.ic_division10
+                        else -> R.drawable.ic_division10
+                    }
+                    binding.tvDivisionTexto.setBackgroundResource(fondo)
 
-            val athleteName = prefs.getString("athlete_name", "Atleta")
-            val avatarUrl = prefs.getString("avatar_url", null)
-            binding.tvAthleteName.text = athleteName
+                    val nombre = document.getString("name") ?: prefs.getString("athlete_name", "Atleta")
+                    val avatar = document.getString("avatarUrl") ?: prefs.getString("avatar_url", null)
+                    binding.tvAthleteName.text = nombre
 
-            if (avatarUrl != null) {
-                Glide.with(binding.imgAvatar.context)
-                    .load(avatarUrl)
-                    .placeholder(R.drawable.ic_user)
-                    .circleCrop()
-                    .into(binding.imgAvatar)
-            } else {
-                binding.imgAvatar.setImageResource(R.drawable.ic_user)
-            }
+                    if (avatar != null) {
+                        Glide.with(binding.imgAvatar.context)
+                            .load(avatar)
+                            .placeholder(R.drawable.ic_user)
+                            .circleCrop()
+                            .into(binding.imgAvatar)
+                    } else {
+                        binding.imgAvatar.setImageResource(R.drawable.ic_user)
+                    }
 
-            val categorias = contarCategoriasCompletadas()
-            binding.tvHC.text = "${categorias["HC"] ?: 0}"
-            binding.tv1.text = "${categorias["1"] ?: 0}"
-            binding.tv2.text = "${categorias["2"] ?: 0}"
-            binding.tv3.text = "${categorias["3"] ?: 0}"
-
-        } catch (e: Exception) {
-            binding.tvAthleteName.text = "Error al cargar perfil"
-            Log.e("PROFILE_ERROR", "Error general", e)
+                    val categorias = contarCategoriasCompletadas()
+                    binding.tvHC.text = "${categorias["HC"] ?: 0}"
+                    binding.tv1.text = "${categorias["1"] ?: 0}"
+                    binding.tv2.text = "${categorias["2"] ?: 0}"
+                    binding.tv3.text = "${categorias["3"] ?: 0}"
+                }
+                .addOnFailureListener {
+                    Log.e("PROFILE_ERROR", "Error al cargar datos desde Firebase", it)
+                    binding.tvLevel.text = "Nivel ? – error"
+                }
         }
 
         val highlighted = listOf("Medalla Oro", "Título Honorífico", "Trofeo de Montaña")
@@ -89,31 +96,32 @@ class ProfileFragment : Fragment() {
         binding.rvHighlightedTrophies.adapter = HighlightedTrophyAdapter(highlighted)
 
         binding.btnResetUser.setOnClickListener {
+            // 🧠 Resetear logros y contadores locales
             resetYReconstruirLogros(requireContext())
 
+            // ✍️ Guardar nombre/avatar temporal antes de borrar prefs
+            val prefs = requireContext().getSharedPreferences("strava_prefs", 0)
             val nombre = prefs.getString("athlete_name", null)
             val avatar = prefs.getString("avatar_url", null)
 
+            // 🧹 Limpiar preferencias locales
             val editor = prefs.edit()
             editor.clear()
             if (nombre != null) editor.putString("athlete_name", nombre)
             if (avatar != null) editor.putString("avatar_url", avatar)
             editor.apply()
 
-            // 🔥 BORRAR USUARIO EN FIREBASE
-            val uid = FirebaseAuth.getInstance().currentUser?.uid
-            if (uid != null) {
-                val db = FirebaseDatabase.getInstance("https://olymperia-default-rtdb.europe-west1.firebasedatabase.app")
-                db.getReference("usuarios").child(uid).removeValue()
-            }
+            // 🔐 Cerrar sesión Firebase anónima
+            FirebaseAuth.getInstance().signOut()
 
-            Toast.makeText(requireContext(), "Usuario reiniciado", Toast.LENGTH_SHORT).show()
-            binding.tvAthleteName.text = nombre ?: ""
-            binding.tvLevel.text = "Nivel 0"
-            binding.imgAvatar.setImageResource(R.drawable.ic_user)
-
-            requireActivity().recreate()
+            // 🔁 Lanzar login otra vez
+            val intent = Intent(requireContext(), LoginActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
         }
+
+
+
 
         binding.btnLogin.setOnClickListener {
             val intent = Intent(requireContext(), LoginActivity::class.java)
@@ -135,36 +143,6 @@ class ProfileFragment : Fragment() {
             level in 91..100 -> 1
             else -> 10
         }
-    }
-
-    private fun actualizarNivel() {
-        val total = ScoreManager.getTotalPoints(requireContext())
-        val level = maxOf(1, total / 200)
-        val division = getDivision(level)
-
-        binding.tvLevel.text = "Nivel $level – $total puntos"
-        binding.tvDivisionTexto.text = "División $division"
-
-        val fondo = when (division) {
-            1 -> R.drawable.ic_division1
-            2 -> R.drawable.ic_division2
-            3 -> R.drawable.ic_division3
-            4 -> R.drawable.ic_division4
-            5 -> R.drawable.ic_division5
-            6 -> R.drawable.ic_division6
-            7 -> R.drawable.ic_division7
-            8 -> R.drawable.ic_division8
-            9 -> R.drawable.ic_division9
-            10 -> R.drawable.ic_division10
-            else -> R.drawable.ic_division10
-        }
-        binding.tvDivisionTexto.setBackgroundResource(fondo)
-
-        val categorias = contarCategoriasCompletadas()
-        binding.tvHC.text = "${categorias["HC"] ?: 0}"
-        binding.tv1.text = "${categorias["1"] ?: 0}"
-        binding.tv2.text = "${categorias["2"] ?: 0}"
-        binding.tv3.text = "${categorias["3"] ?: 0}"
     }
 
     private fun contarCategoriasCompletadas(): Map<String, Int> {

@@ -19,8 +19,8 @@
     <!-- Nuevo sello visual personalizado -->
     <ImageView
         android:id="@+id/ivCompletado"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
         android:layout_marginEnd="4dp"
         android:src="@drawable/ic_check"
         android:scaleType="fitCenter"
@@ -30,8 +30,8 @@
 
     <ImageView
         android:id="@+id/ivSelloPuerto3"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
         android:layout_marginEnd="4dp"
         android:src="@drawable/ic_repeat_3"
         android:scaleType="fitCenter"
@@ -41,8 +41,8 @@
 
     <ImageView
         android:id="@+id/ivSelloPuerto5"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
         android:layout_marginEnd="4dp"
         android:src="@drawable/ic_repeat_5"
         android:scaleType="fitCenter"
@@ -52,8 +52,8 @@
 
     <ImageView
         android:id="@+id/ivSelloPuerto10"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
         android:layout_marginEnd="8dp"
         android:src="@drawable/ic_repeat_10"
         android:scaleType="fitCenter"

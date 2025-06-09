@@ -1,4 +1,6 @@
 package com.example.olymperia.model
 
-class TipoLogro {
+enum class TipoLogro {
+    MEDALLA,
+    TROFEO
 }

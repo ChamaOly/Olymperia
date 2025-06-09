@@ -1,6 +1,52 @@
 <androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android" xmlns:card_view="http://schemas.android.com/apk/res-auto" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="8dp" card_view:cardCornerRadius="16dp" card_view:cardElevation="6dp" card_view:cardBackgroundColor="@android:color/transparent">
-    <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:padding="16dp">
-        <TextView android:id="@+id/tvHonorNombre" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Honor de ejemplo" android:textSize="18sp" android:textColor="#0B0A0A" android:textStyle="bold" android:gravity="center" android:fontFamily="@font/cinzel_regular" android:background="@drawable/bg_honor_conquistador" android:padding="16dp" android:alpha="1.0"/>
-    </RelativeLayout>
+    <FrameLayout
+        android:id="@+id/bgLogroConquistador"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:layout_margin="12dp"
+        android:background="@drawable/bg_logro_border"
+        android:elevation="4dp">
+        <TextView
+            android:id="@+id/tvHonorNombre"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Nombre del honor"
+            android:textColor="#FFFFFF"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+
+        <!-- Textura de fondo -->
+
+        <ImageView
+            android:id="@+id/imgTexturaFondo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/gravel_texture"
+            android:scaleType="fitXY"
+            android:adjustViewBounds="true"
+            android:alpha="0.85"
+            android:layout_gravity="center"
+            android:contentDescription="@null" />
+
+
+        <!-- Texto central del logro -->
+        <TextView
+            android:id="@+id/tvTituloLogro"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="CONQUISTADOR"
+            android:textColor="#FFD700"
+            android:textStyle="bold"
+            android:textSize="22sp"
+            android:letterSpacing="0.08"
+            android:fontFamily="@font/montserrat_bold"
+            android:layout_gravity="center"
+            android:shadowColor="#66000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="4" />
+    </FrameLayout>
+
 </androidx.cardview.widget.CardView>
