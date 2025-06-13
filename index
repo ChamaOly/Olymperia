@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <title>Soporte Olimperia</title>
+</head>
+<body>
+  <h1>Soporte de Olimperia</h1>
+  <p>Para cualquier duda, bug o sugerencia, contacta con:</p>
+  <ul>
+    <li><strong>Email:</strong> soporte@tudominio.com</li>
+    <li><strong>Issues en GitHub:</strong>
+      <a href="https://github.com/tuUsuario/olymperia/issues">
+        https://github.com/tuUsuario/olymperia/issues
+      </a>
+    </li>
+  </ul>
+</body>
+</html>
